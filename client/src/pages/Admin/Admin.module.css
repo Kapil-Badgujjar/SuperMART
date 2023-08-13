@@ -1,0 +1,29 @@
+.admin_panel {
+
+}
+
+.navbar_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 56px;
+    color: white;
+    background-color: rgb(84, 104, 122);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    max-width: 100%;
+}
+.navbar > a{
+    color: white;
+    text-decoration: none;
+}
+@media screen and (min-width: 768px) {
+    .navbar {
+        width: 100%;
+        max-width: 1236px;
+    }
+}

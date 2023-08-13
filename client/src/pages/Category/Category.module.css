@@ -1,0 +1,16 @@
+.products_container {
+    max-width: 1236px;
+    margin: 0 auto;
+    font-family: 'Nunito Sans', sans-serif;;
+}
+.products_container > h1 {
+    text-align: center;
+    font-size: 2rem;
+}
+.products_section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 10px;
+}
+

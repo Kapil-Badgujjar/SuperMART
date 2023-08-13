@@ -1,0 +1,23 @@
+
+.sellers_table {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0 auto;
+    max-width: 100%
+}
+.sellers_table > tr {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+}
+.sellers_table > tr > th {
+    text-align: left;
+}
+
+@media screen and (min-width: 768px) {
+    .sellers_table {
+        width: 100%;
+        max-width: 1236px;
+    }
+}

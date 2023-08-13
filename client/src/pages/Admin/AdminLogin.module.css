@@ -1,0 +1,34 @@
+.admin_login {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    height: 100vh;
+    background-color: lightslategray;
+}
+
+.login_form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: white;
+    box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.2);
+}
+.error {
+    color: red;
+    height: 1rem;
+}
+.input_box {
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 1.2rem;
+    width: 100%;
+}
+@media screen and (min-width: 768px) {
+    .login_form {
+        width: 100%;
+        max-width: 600px;
+    }
+}

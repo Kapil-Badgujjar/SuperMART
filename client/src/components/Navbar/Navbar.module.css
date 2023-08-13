@@ -1,0 +1,257 @@
+/* Navbar container styles */
+.navbar_container {
+    position: fixed;
+    width: 100vw;
+    box-sizing: border-box;
+    background-color: #22333B;
+    height: 56px;
+    font-family: 'Nunito Sans', sans-serif;
+    z-index: 100;
+  }
+  
+  /* Navbar styles */
+  .navbar {
+    margin: 0 auto;
+    padding: 0 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1236px;
+    height: 56px;
+    color: white;
+    font-size: 1.3rem;
+    font-weight: 500;
+  }
+  .navbar > a{
+    display: none;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+  }
+  
+  /* Left side (logo and text) styles */
+  .left_side {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 2rem;
+    font-weight: 700;
+  }
+  .left_side >a{
+    text-decoration: none;
+    color: white;
+  }
+  /* Logo image styles */
+  .logo_image {
+    width: 40px;
+  }
+  
+  /* Center (navigation links) styles */
+  .center {
+    display: none;
+    gap: 1.3rem;
+  }
+  
+  /* Right side (search, profile, favorite, cart) styles */
+  .right_side {
+      display: none; /* Initially hidden for small screens */
+      gap: 1.3rem;
+  }
+  
+  /* Navigation link styles */
+  .center a,
+  .right_side a {
+      text-decoration: none;
+      color: white;
+  }
+
+    /* Menu button container styles */
+    .menu_button_container {
+      display: flex;
+    }
+    
+
+  .profile_image {
+    cursor: pointer;
+    width: 35px;
+  }
+  .cart_box {
+    cursor: pointer;
+    position: relative;
+  }
+  .cart_icon {
+    width: 35px;
+  }
+  .cart_counter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: -5px;
+    right: 0px;
+    width: 14px;
+    height: 14px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: black;
+    background-color: #EAE0D5;
+    padding: 4px;
+    border-radius: 50%;
+  }
+
+  /* Center and right side (navigation links) styles for larger screens */
+  @media screen and (min-width: 768px) {
+    .navbar > a{
+      display: inline;
+    }
+    .center,
+    .right_side {
+      display:flex;
+    }
+    /* Menu button container styles */
+    .menu_button_container {
+      display: none;
+    }
+  }
+  
+  /* Menu button (hamburger icon) styles */
+  .menu_button {
+    width: 20px;
+    cursor: pointer;
+  }
+  
+  /* Side menu styles */
+  .side_menu {
+    box-sizing: border-box;
+    height: calc(100vh - 56px);
+    display: flex;
+    position: fixed;
+    width: 100%;
+    top: 56px;
+    z-index: 999; /* Ensure side menu is above other elements */
+    right: var(--side-menu-right, -100%);
+    transition: right 0.3s ease-in-out; /* Animation for sliding in/out */
+  }
+  
+  /* Left side of the side menu styles (empty space) */
+  .side_menu > .left_side {
+    flex: 1;
+    background-color: rgba(0, 0, 0, 0.329);
+  }
+  
+  /* Right side of the side menu styles (navigation links) */
+  .side_menu > .right_side {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 10px;
+    font-weight: 600;
+    background-color: #22333B;
+    width: 150px;
+    overflow: hidden; /* Hide content if width is 0 */
+    transition: width 0.3s ease-in-out; /* Animation for sliding in/out */
+  }
+  
+  /* When sideMenu is true, show the side menu */
+  .side_menu[style*="--side-menu-right: 0"] {
+    right: 0; /* Set right to 0 when side menu is open */
+  }
+  
+  /* When sideMenu is true, show the right side with a width of 150px */
+  .side_menu[style*="--side-menu-right: 0"] > .right_side {
+    width: 150px; /* Set the width when side menu is open */
+  }
+  
+  .user_cart_page {
+    height: calc(100vh - 56px);
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, 0.493);
+    width: 100vw;
+    position: absolute;
+  }
+  .cart_left_side {
+    width: 100%;
+    height: 100%;
+  }
+  .user_cart {
+    width: 30%;
+    min-width: 360px;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 30px;
+    right: -320px;
+    color: #22333B;
+    background-color: white;
+    transition: all 0.5s ease-in-out;
+  }
+  .show_user_cart {
+    right: 0px;
+  }
+  .user_profile {
+    position: relative;
+  }
+  .user_float_menu {
+    box-sizing: border-box;
+    display: none;
+    position: absolute;
+    right: -10px;
+   
+  }
+
+  .user_profile:hover .user_float_menu {
+    display: flex;
+    flex-direction: column;
+  }
+  .user_float_menu:hover, .user_float_menu > div:hover, .user_float_menu > span:hover {
+    display: flex;
+  }
+
+  .user_menu_options {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    min-width: 150px;
+    color: white;
+    background-color: #22333B;
+    border-radius: 8px;
+  }
+  .top_space {
+    height: 20px;
+  }
+
+  .cart_top {
+    display: flex;
+    justify-content: space-between;
+    /* padding: 10px;
+    padding-right: 30px; */
+    margin-bottom: 20px;
+    font-size: 2rem;
+    font-weight: 800;
+  }
+  .cart_top > span  {
+    cursor: pointer;
+  }
+  .cart_products_block {
+    height: calc(100vh - 260px);
+    overflow: scroll;
+  }
+  .cart_products_block::-webkit-scrollbar{
+    display: none;
+  }
+
+  .total_cart_price {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+
+  .checkout_btn > button {
+    width: 100%;
+  }

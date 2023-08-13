@@ -1,0 +1,29 @@
+.add_product_container {
+    width: 100%;
+}
+
+.add_product_form, .other_specs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.add_product_input_box, .add_product_textarea {
+    padding: 8px;
+}
+
+.add_product_textarea {
+    height: 50px;
+}
+
+.add_product_form > Button {
+    background-color: blueviolet;
+}
+
+@media screen and (min-width: 768px) {
+    .add_product_form {
+        max-width: 60%;
+    }
+}

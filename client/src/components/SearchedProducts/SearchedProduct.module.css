@@ -1,0 +1,24 @@
+.product {
+    display: flex;
+    gap: 20px;
+    font-family: 'Nunito Sans', sans-serif;
+    outline: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 3px;
+}
+.product > img {
+    width: 60px;
+}
+.product_detail {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.name{
+    font-size: 1.3rem;
+    font-weight: 800;
+}
+@media screen and (min-width: 768px) {
+    .product > img {
+        width: 100px;
+    }
+}

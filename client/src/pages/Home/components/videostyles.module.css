@@ -1,0 +1,45 @@
+.video1 {
+    display: flex;
+    flex-direction: column;
+    background-color: #a58aff;
+}
+.v1v {
+    width: 100%;
+    height: 100%;
+    outline: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+.v1text, .v2text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+    font-size: 2rem;
+    font-family:  'Lexend Deca', sans-serif;
+    flex: 1;
+    color: white;
+    background-color: #a58aff;
+}
+.v2text {
+    background-color: #72c3ce;
+}
+.v3v {
+    display: block;
+    width: 100%;
+}
+
+@media screen  and (min-width: 768px) {
+    .v1text, .v2text {
+        font-size: 3rem;
+    }
+    .video1 {
+        flex-direction: row;
+    }
+    .v1v {
+        width: 40%;
+    }
+}

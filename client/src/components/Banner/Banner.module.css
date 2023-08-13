@@ -1,0 +1,23 @@
+.banner {
+    font-family: 'Nunito Sans', sans-serif;
+}
+.image1 {
+    width: 100%;
+    display: none;
+}
+.image2 {
+    width: 100%;
+    display: block;
+}
+
+@media screen and (min-width: 768px) {
+    .image1 {
+        display: block;
+    }
+    .image2 {
+        display: none;
+    }
+    .banner_line{
+        font-size: 2rem;
+    }
+}

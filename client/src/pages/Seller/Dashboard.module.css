@@ -1,0 +1,22 @@
+.financial_info {
+    padding: 20px 0px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    width: 100%;
+    /* display: flex;
+    justify-content: space-between; */
+    gap: 20px;
+}
+.financial_info > div {
+    height: 100px;
+    outline: 1px solid grey;
+}
+.products_info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.graph {
+
+    outline: 1px solid gray;
+}

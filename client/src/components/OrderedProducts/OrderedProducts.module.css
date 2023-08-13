@@ -1,0 +1,20 @@
+.ordered_products {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+}
+.product_container {
+    display: flex;
+
+}
+.product_container > img {
+    width: 150px;
+    max-height: 150px;
+}
+
+@media screen and (min-width: 768px) {
+    .ordered_products {
+        flex-direction: row;
+    }
+}

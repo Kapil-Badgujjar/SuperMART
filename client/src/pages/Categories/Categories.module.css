@@ -1,0 +1,39 @@
+categories_container{
+    width: 100%;
+}
+.categories_main_div{
+    max-width: 100%;
+    font-family:  'Lexend Deca', sans-serif;
+}
+.heading{
+    font-size: 3rem;
+    text-align: center;
+    margin: 0px auto;
+}
+.categories{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 8px;
+    padding: 20px 0px;
+}
+.categories > div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #22333B;
+    height: 200px;
+    color: white;
+    text-shadow: 2px 2px 5px #22333B;
+    font-size: 260%;
+    transition: font-size 0.3s ease-in-out;
+}
+.categories > div:hover {
+    font-size: 300%;
+}
+@media screen and (min-width: 768px) {
+    .categories_container{
+        max-width: 1236px;
+        margin: 0px auto;
+    }
+    
+}

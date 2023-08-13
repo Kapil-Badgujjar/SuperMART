@@ -1,0 +1,11 @@
+.products_container {
+    max-width: 1236px;
+    margin: 0 auto;
+
+}
+.products_section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 10px;
+}
