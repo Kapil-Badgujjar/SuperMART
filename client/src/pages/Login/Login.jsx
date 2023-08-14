@@ -17,7 +17,7 @@ export default function Login() {
   // const userCart = useSelector(selectUserCart) || undefined;
   const user = useSelector(selectUserDetail) || undefined;
   const status = useSelector(selectUserStatus) || undefined;
-  const errors = useSelector(selectUserErrors) || undefined;
+  let errors = useSelector(selectUserErrors) || undefined;
 
  useEffect(() => {
     console.log(user.name);
@@ -35,7 +35,7 @@ useEffect(() => {
       dispatch(fetchUser(formData));
       dispatch(fetchCart());
     } catch (err) {
-      console.log(err.message);
+      errors = err.message;
     }
   }
 

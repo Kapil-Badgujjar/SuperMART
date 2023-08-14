@@ -3,27 +3,27 @@ import { prisma } from '../prisma/prismaClientModule.js';
 import passport from "passport";
 import { Strategy as jwtStrategy, ExtractJwt } from "passport-jwt";
 
-async function getUser ( id ){
-    const user = await prisma.user.findFirst({ where: { id: id }});
-    console.log(user);
+async function getSeller ( id ){
+    const seller = await prisma.seller.findFirst({ where: { id: id }});
+    console.log(seller);
     return { 
-        "id": user.id,
-        "name": user.name,
-        "email": user.email,
-        "phoneNumber": user.phoneNumber
+        "id": seller.id,
+        "name": seller.name,
+        "email": seller.email,
+        "phoneNumber": seller.phoneNumber
     };
 }
 
 const jwtOpts = {
     "jwtFromRequest": ExtractJwt.fromAuthHeaderAsBearerToken(),
-    "secretOrKey": process.env.ACCESS_TOKEN_SECRET
+    "secretOrKey": process.env.SELLER_ACCESS_TOKEN_SECRET
 }
 
 passport.use(new jwtStrategy(jwtOpts, async (jwtPayload, done)=>{
     // console.log(jwtPayload, '<<<-------------- JWT Payload');
-    const user = await getUser(jwtPayload.id);
-    if(user){
-        return done(null, user);
+    const seller = await getSeller(jwtPayload.id);
+    if(seller){
+        return done(null, seller);
     } else {
         return done(null, false);
     }

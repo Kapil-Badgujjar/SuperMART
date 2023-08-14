@@ -7,8 +7,9 @@ const fetchSeller = createAsyncThunk(
         try {
             const response = await postData('/sellers/login', seller, '');
             localStorage.setItem('sellerToken', response.data.accessToken);
-            console.log(response.data);
-            return response.data.user;
+            localStorage.setItem('sellerToken', response.data.accessToken);
+            localStorage.setItem('sellerRefreshToken', response.data.refreshToken);
+            return response.data.seller;
         } catch (error) {
             error.message = error.response.data.message;
             throw error;
@@ -31,6 +32,9 @@ const sellerSlice = createSlice({
     name: 'seller',
     initialState,
     reducers: {
+        login: (state,action) => {
+            state.seller = action.payload;
+        },
         logout: (state, action) => {
             state.seller = {
                 id: undefined,
@@ -67,6 +71,6 @@ export const selectSellerError = (state) => state.seller.error;
 
 export { fetchSeller };
 
-export const { logout } = sellerSlice.actions;
+export const {login, logout } = sellerSlice.actions;
 
 export default sellerSlice.reducer;

@@ -8,13 +8,13 @@ import cartimage from '/icons/cart.png';
 import userprofile from '/icons/user.png';
 import Button from '../Button/Button';
 import CartProduct from '../CartProducts/CartProduct';
-
-import { useSelector } from "react-redux";
-import { selectUserDetail, logout } from "../../features/user/userSlice";
-import { selectUserCart, selectCartStatus, selectCartError } from "../../features/userCart/userCartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUserDetail, login, logout } from "../../features/user/userSlice";
+import { selectUserCart, selectCartStatus, selectCartError, fetchCart } from "../../features/userCart/userCartSlice";
 import axios from 'axios';
 
 export default function Navbar() {
+  const dispatch = useDispatch();
   const [sideMenu, setSideMenu] = useState(false);
   const navigate = useNavigate();
   const [showCart, setShowCart] = useState(false);
@@ -24,18 +24,53 @@ export default function Navbar() {
   const cartError = useSelector( selectCartError ) || undefined;
   const userprofileimage = undefined;
 
-  useEffect(() => {
-    console.log(cart);
-  },[cart]);
+  async function logoutfun() {
+    const refreshToken = localStorage.getItem('userRefreshToken');
+    try{
+      const response = await axios.get(import.meta.env.VITE_SERVER_ADDRESS + '/user/logout',
+      {
+        withCredentials: true,
+        headers: { 'Authorization': 'Bearer ' + refreshToken }
+      })
+      if(response.status === 200) {
+        localStorage.removeItem('userRefreshToken');
+        localStorage.removeItem('userToken');
+        dispatch(logout());
+        navigate('/login');
+        }
+    } catch(err) {
+      console.log(err.message)
+    }
+  }
 
   useEffect(() => {
-    const token = localStorage.getItem('userToken');
-    console.log(token);
+    const token = localStorage.getItem('userToken') || undefined;
+    const refreshToken = localStorage.getItem('userRefreshToken') || undefined;
+    console.log(refreshToken);
     async function getDetails() {
-      const response =await axios.post(import.meta.env.VITE_SERVER_ADDRESS + '/user/check-passportjwt',{}, {withCredentials: true, 
-        headers: { "Content-Type": "application/json", 'Authorization': 'Bearer ' + token },
-      })
-      console.log(response);
+      try{
+        const response = await axios.post(import.meta.env.VITE_SERVER_ADDRESS + '/user/check-passportjwt',{}, {withCredentials: true, 
+          headers: { "Content-Type": "application/json", 'Authorization': 'Bearer ' + token },
+        })
+        dispatch(login(response.data));
+        dispatch(fetchCart());
+      } catch (error) {
+        console.log(error.message);
+        try{
+          const response = await axios.get(import.meta.env.VITE_SERVER_ADDRESS + '/user/refresh-token', {
+            withCredentials: true,
+            headers: {
+              "Authorization": "Bearer " + refreshToken
+            }
+          });
+          localStorage.setItem('userToken', response.data.newAccessToken);
+          dispatch(fetchCart());
+        }
+        catch (err) {
+          console.log(err.message);
+          navigate('/login');
+         }
+      }
     }
     getDetails();
   },[]);
@@ -71,11 +106,11 @@ export default function Navbar() {
                     <div className={styles.user_menu_options}>
                       <div><span className=''></span></div>
                       {user && <span>{user.name}</span> }
-                      <span>Orders</span>
-                      <span>Favorites</span>
-                      <span>My Account</span>
+                      <span onClick={()=>{navigate('/orders')}}>Orders</span>
+                      <span onClick={()=>{navigate('/favourite')}}>Favorites</span>
+                      <span onClick={()=>{navigate('/user-profile')}}>My Account</span>
                       <span>Help</span>
-                      <span>Logout</span>
+                      <span onClick={logoutfun}>Logout</span>
                     </div>
                   </div>
                 </div>
@@ -93,17 +128,17 @@ export default function Navbar() {
             onClick={() => setSideMenu(false)}
           ></div>
           <div className={styles.right_side}>
-            <Link to='/'>Home</Link>
-            <Link to='/categories'>Categories</Link>
-            <Link to='/products'>products</Link>
-            <Link to='/search'>Search</Link>
-            <Link to='/about'>About</Link>
-            {user?.name && <Link to='/user-profile'>Profile</Link>}
-            {user?.name && <Link to='/orders'>Order</Link> }
-            {user?.name && <Link to='/favorite'>Favorite</Link> }
-            {user?.name && <Link onClick={()=>{ setShowCart(prev => !prev)}}>Cart</Link>}
-            {user?.name ? <Link to='/logout'>Logout</Link> : <Link to='/login'>Login</Link>}
-          </div>
+            <Link to='/' onClick={() => setSideMenu(false)}>Home</Link>
+            <Link to='/categories' onClick={() => setSideMenu(false)}>Categories</Link>
+            <Link to='/products'  onClick={() => setSideMenu(false)}>products</Link>
+            <Link to='/search' onClick={() => setSideMenu(false)}>Search</Link>
+            <Link to='/about' onClick={() => setSideMenu(false)}>About</Link>
+            {user?.name && <Link to='/user-profile' onClick={() => setSideMenu(false)}>Profile</Link>}
+            {user?.name && <Link to='/orders' onClick={() => setSideMenu(false)}>Order</Link> }
+            {user?.name && <Link to='/favourite' onClick={() => setSideMenu(false)}>Favourite</Link> }
+            {user?.name && <Link onClick={() => { setShowCart(prev => !prev); setSideMenu(false)}}>Cart</Link>}
+            {user?.name ? <span  onClick={() => { setSideMenu(false); logoutfun() }}>Logout</span> : <Link to='/login' onClick={() => setSideMenu(false)}>Login</Link>}
+          </div>u
         </div>
       )}
       {showCart && <div className={styles.user_cart_page} >

@@ -26,7 +26,6 @@ app.use('/sellers',Seller);
 app.use('/products',Products);
 app.use('/admin',Admin);
 
-
 app.listen(7777, (err)=>{
     if(!err) console.log('Server started...');
 })

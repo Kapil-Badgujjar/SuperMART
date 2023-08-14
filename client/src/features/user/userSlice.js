@@ -7,7 +7,9 @@ const fetchUser = createAsyncThunk(
         try{
             const response = await axios.post(import.meta.env.VITE_SERVER_ADDRESS+'/user/login',data,{withCredentials: true, headers: {'Content-Type': 'application/json'}});
             if(response.status === 200){
+                console.log(response.data);
                 localStorage.setItem('userToken', response.data.accessToken);
+                localStorage.setItem('userRefreshToken', response.data.refreshToken);
                 return response.data.user;
             }
 
@@ -32,6 +34,9 @@ export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
+        login: (state, action) => {
+            state.user = action.payload;
+        },
         logout: (state) => {
                 state.user = {
                 id: undefined,
@@ -66,6 +71,6 @@ export const selectUserDetail = (state) => state.user.user;
 export const selectUserStatus = (state) => state.user.status;
 export const selectUserErrors = (state) => state.user.error;
 
-export const { logout } = userSlice.actions;
+export const {login, logout } = userSlice.actions;
 
 export default userSlice.reducer;

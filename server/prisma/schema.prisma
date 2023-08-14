@@ -119,6 +119,11 @@ model Seller {
   orders              Order[]
 }
 
+model Token {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  refreshToken String @unique
+}
+
 enum Status {
   pending
   processed

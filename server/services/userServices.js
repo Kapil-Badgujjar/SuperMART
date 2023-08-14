@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 async function getUser(email, password){
     try {
         const response = await prisma.user.findFirst({where: {email: email, password: password}});
+        console.log(response)
         const user = {};
         user.id = response.id;
         user.name = response.name;
@@ -10,7 +11,7 @@ async function getUser(email, password){
         user.phoneNumber = response.phoneNumber;
         return user;
     } catch (err) {
-        console.log(err);
+        console.log(err.message);
         return false;
     }
 }
