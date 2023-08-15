@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import styles from './AddProduct.module.css'
 import Button from '../../components/Button/Button'
 import { postData } from '../../api/AxiosPostRequest';
@@ -7,6 +7,7 @@ import { selectSeller } from '../../features/seller/sellerSlice';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 export default function AddProducts() {
+  const [otherSpecs, setOtherSpecs] = useState(false)
   const formReference = useRef(null);
   const navigate = useNavigate();
   const seller = useSelector(selectSeller);
@@ -50,9 +51,20 @@ export default function AddProducts() {
         <input className={styles.add_product_input_box} type='offer' name="offer" placeholder='Offer' />
         <input className={styles.add_product_input_box} type='text' name="category" placeholder='Product category' />
         <textarea className={styles.add_product_textarea} type='text' name="description" placeholder='Product description' />
-        <div><lable>Choose product image: </lable><input className={styles.add_product_input_box} type='file' name="productImage" /></div>
-        <p>Other specs</p>
-        <div className={styles.other_specs}>
+        <div><label>Choose product image: </label><input className={styles.add_product_input_box} type='file' name="productImage" /></div>
+        <div>
+          <p>Some instructions for better product display</p>
+          <ul className={styles.instructions}>
+            <li>Choose an image with aspect ratio 1:1</li>
+            <li>If possible, make background white</li>
+            <li>Picture should be clear</li>
+            <li>Object must be shown clear</li>
+            <li>Use high resolution image if possible</li>
+            <li>*File size must be less than 500kb</li>
+          </ul>
+        </div>
+        <p onClick={()=>{setOtherSpecs(prev => !prev)}} className={styles.other_specs_btn}>Other specs</p>
+        {otherSpecs && <div className={styles.other_specs}>
             <input className={styles.add_product_input_box} type='text' name="color" placeholder='color' />
             <input className={styles.add_product_input_box} type='number' name="size" placeholder='size' />
             <input className={styles.add_product_input_box} type='text' name="ram" placeholder='Ram' />
@@ -62,9 +74,10 @@ export default function AddProducts() {
             <input className={styles.add_product_input_box} type='text' name="network" placeholder='Network' />
             <input className={styles.add_product_input_box} type='text' name="display" placeholder='Display' />
             <input className={styles.add_product_input_box} type='text' name="battery" placeholder='Battery' />
-        </div>
+        </div> }
         <Button value="Add Product" action={(e)=>{addProduct(e)}} />
         <p>Support for *custom specs coming soon!</p>
+        <p>Planned to add in house image cropping facility - will be available soon...</p>
       </form>
     </div>
   )

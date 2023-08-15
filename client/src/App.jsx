@@ -27,6 +27,8 @@ import SellerForgotPassword from './pages/ForgotPassword/SellerForgotPassword';
 import SellerRegister from './pages/Signup/SellerRegister';
 import AdminLogin from './pages/Admin/AdminLogin';
 import SellersTable from './pages/Admin/SellersTable';
+import AllProducts from './pages/Seller/AllProducts';
+import SellerPage from './pages/Seller/SellerPage';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -93,7 +95,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/sellers',
-    element: <div><Outlet/></div>,
+    element: <SellerPage />,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -124,17 +126,17 @@ const router = createBrowserRouter([
             path: 'add-product',
             element: <AddProducts />
           },
-          {
-            path: 'update-product/:id',
-            element: <div>Update Product</div>
-          },
+          // {
+          //   path: 'update-product/:id',
+          //   element: <div>Update Product</div>
+          // },
           {
             path: 'orders',
             element: <div>Orders</div>
           },
           {
             path: 'all-products',
-            element: <div>All Products</div>
+            element: <AllProducts />
           }
         ]
       }

@@ -1,5 +1,12 @@
 .add_product_container {
+    box-sizing: border-box;
     width: 100%;
+    overflow: scroll;
+    height: calc(100vh - 96px);
+}
+
+.add_product_container::-webkit-scrollbar {
+    display: none;
 }
 
 .add_product_form, .other_specs {
@@ -16,6 +23,16 @@
 
 .add_product_textarea {
     height: 50px;
+}
+
+.instructions {
+    list-style-type: none;
+}
+
+.other_specs_btn {
+    cursor: pointer;
+    color: rgb(148, 0, 246);
+    width: fit-content;
 }
 
 .add_product_form > Button {

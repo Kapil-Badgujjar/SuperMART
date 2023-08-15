@@ -7,7 +7,6 @@ const fetchSeller = createAsyncThunk(
         try {
             const response = await postData('/sellers/login', seller, '');
             localStorage.setItem('sellerToken', response.data.accessToken);
-            localStorage.setItem('sellerToken', response.data.accessToken);
             localStorage.setItem('sellerRefreshToken', response.data.refreshToken);
             return response.data.seller;
         } catch (error) {

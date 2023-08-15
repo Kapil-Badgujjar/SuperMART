@@ -7,7 +7,7 @@ import axios from 'axios';
 export default function Home() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    async function logout() {
+    async function logoutFun() {
         const token = localStorage.getItem('sellerRefreshToken');
         const response = await axios.get(import.meta.env.VITE_SERVER_ADDRESS + '/sellers/logout',
         {
@@ -27,7 +27,7 @@ export default function Home() {
     <div className={styles.seller_container}>
         <div className={styles.top}>
             <div className={styles.navbar}>
-                <div>SuperMART sellers</div><div>Sellers Dashboard</div><div onClick={logout}>Logout</div>
+                <div>SuperMART sellers</div><div>Sellers Dashboard</div><div onClick={logoutFun}>Logout</div>
             </div>
         </div>
         <div className={styles.bottom}>
@@ -38,7 +38,7 @@ export default function Home() {
                     <li><Link to='/sellers/seller-account/add-product'>Add Products</Link></li>
                     <li><Link to='/sellers/seller-account/all-products'>All Products</Link></li>
                     <li><Link to='/sellers/seller-account/orders'>Orders</Link></li>
-                    <li><Link >Logout</Link></li>
+                    {/* <li><Link >Logout</Link></li> */}
                 </ul>
             </div>
             <div className={styles.right}>

@@ -21,49 +21,49 @@ export default function SellerLogin() {
     dispatch(fetchSeller(new FormData(formReference.current)));
   }
 
-  useEffect(() => {
-    //get token from the local storage 
-    const token = localStorage.getItem('sellerToken');
-    const refreshToken = localStorage.getItem('sellerRefreshToken');
+  // useEffect(() => {
+  //   //get token from the local storage 
+  //   const token = localStorage.getItem('sellerToken');
+  //   const refreshToken = localStorage.getItem('sellerRefreshToken');
 
-    //if token found, get the seller details from the server
-    async function getDetails(){     
-        try {
-          const response = await axios.get(import.meta.env.VITE_SERVER_ADDRESS + '/sellers/get-seller-details', {
-            withCredentials: true,
-            headers: {
-                "Authorization": "Bearer " + token,
-              }
-            });
-            if(response.status === 200) {
-              dispatch(login(response.data))
-            }
-          } catch (error) {
-            errorMessage = error.message;
-            try{
-              const response = await axios.get(import.meta.env.VITE_SERVER_ADDRESS + '/sellers/refresh-token', {
-                withCredentials: true,
-                headers: {
-                    "Authorization": "Bearer " + refreshToken,
-                  }
-                });
-                if(response.status === 200) {
-                  localStorage.setItem('sellerToken', response.data.newAccessToken);
-                  dispatch(login(response.data.seller));
-                }
-            } catch (err) {
-              errorMessage = err.message;
-            }
-        }
-    }
+  //   //if token found, get the seller details from the server
+  //   async function getDetails(){     
+  //       try {
+  //         const response = await axios.get(import.meta.env.VITE_SERVER_ADDRESS + '/sellers/get-seller-details', {
+  //           withCredentials: true,
+  //           headers: {
+  //               "Authorization": "Bearer " + token,
+  //             }
+  //           });
+  //           if(response.status === 200) {
+  //             dispatch(login(response.data))
+  //           }
+  //         } catch (error) {
+  //           errorMessage = error.message;
+  //           try{
+  //             const response = await axios.get(import.meta.env.VITE_SERVER_ADDRESS + '/sellers/refresh-token', {
+  //               withCredentials: true,
+  //               headers: {
+  //                   "Authorization": "Bearer " + refreshToken,
+  //                 }
+  //               });
+  //               if(response.status === 200) {
+  //                 localStorage.setItem('sellerToken', response.data.newAccessToken);
+  //                 dispatch(login(response.data.seller));
+  //               }
+  //           } catch (err) {
+  //             errorMessage = err.message;
+  //           }
+  //       }
+  //   }
 
-    // set the seller details to seller slice
-    getDetails();
-  },[]);
+  //   // set the seller details to seller slice
+  //   getDetails();
+  // },[]);
 
   useEffect(() => {
     //seller id exists navigate to dashboard page
-    console.log(seller);
+    // console.log(seller);
     if(seller.id) navigate('/sellers/seller-account/dashboard');
   },[seller]);
 
@@ -79,7 +79,6 @@ export default function SellerLogin() {
           <div className={styles.btn}>
             <Button value="Submit" action={(e) => {getSeller(e)}} />
           </div>
-
           <Link to="/sellers/forgot-password">Forgot Password</Link>
           <Link to="/sellers/register">Register as Seller</Link>
           <hr />
