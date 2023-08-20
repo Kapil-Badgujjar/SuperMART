@@ -33,6 +33,7 @@ export default function About() {
             </h2>
             <p>
               SuperMART is a modern E Commerce web application. It provides a great user experience and attractive user interface to the user. Main features of the SuperMART includes<br/>
+            </p>
             <br/>
               <ul className={styles.main_features}>
                 <li>Homepage to display ongoing sale and offers and other events.</li>
@@ -44,7 +45,7 @@ export default function About() {
               </ul>
               <br/>
               Its backend is written in NodeJS that is a powerful server enviroment.
-            </p>
+
           </div>
           <div>
             <div className={styles.details}>
@@ -57,9 +58,9 @@ export default function About() {
                   <img src={css3} alt="css3 image" />
                   <img src={nodejs} alt="nodejs image" />
                   <img src={sendgridimage} alt="sendgrid image" />
-                  <img src={jwtimage} alt="jwt image" />
-                  <img src={passportimage} alt="passport image" />
                   <img src={firebase} alt="firebase image" />
+                  <img src={jwtimage} alt="jwt image" />
+                  {/* <img src={passportimage} alt="passport image" /> */}
                   <img src={prismaimage} alt="prisma image" />
                   <img src={monogodbimage} alt="mongodb image" />
               </div>

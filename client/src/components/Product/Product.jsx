@@ -1,6 +1,5 @@
 import React from 'react'
 import styles from './Product.module.css'
-import AppleWatch from '/apple_watch.png';
 import { useNavigate } from 'react-router-dom';
 export default function Product(props) {
 const navigate = useNavigate();
