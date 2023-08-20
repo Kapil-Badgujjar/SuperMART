@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './Banner.module.css'
-import bannerImage from '/shopping_background2.jpg';
-import bannerImage1 from '/shopping_background3.jpg';
+import bannerImage from '/SuperMARTBanner.jpg';
+import bannerImage1 from '/SuperMARTBanner2.jpg';
 export default function Banner() {
   return (
     <div className={styles.banner_container}>

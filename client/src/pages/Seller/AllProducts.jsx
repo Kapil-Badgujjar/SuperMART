@@ -6,7 +6,7 @@ export default function AllProducts() {
     const [products, setProducts] = useState([]);
     useEffect(() => {
         const accessToken = localStorage.getItem('sellerToken');
-        console.log(accessToken);
+        // console.log(accessToken);
         async function loadProducts() {
                 try{
                     const response = await axios.get(import.meta.env.VITE_SERVER_ADDRESS + '/sellers/get-my-products', {

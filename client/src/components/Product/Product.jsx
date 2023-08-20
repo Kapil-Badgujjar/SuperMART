@@ -8,16 +8,17 @@ const navigate = useNavigate();
     <div className={styles.product_container} onClick={()=>{navigate(`/product/${props.product.id}`)}}>
         <div className={styles.product} >
             <div className={styles.image_container}>
-                <img src={props.product.images[0]} alt='Product image' />
+                <img src={props.product.image} alt='Product image' />
             </div>
             <div className={styles.details}>
                 <div>
-                    <span>{props.product.title}</span>
-                    <span>{props.product.price*10}</span>
+                    <span>{props.product.productName}</span>
+                    <span>&#8377; {props.product.price}</span>
                 </div>
                 <div>
-                    <span>{props.product.rating}</span>
-                    <span>{Math.round((props.product.price-props.product.discountPercentage)*10)}</span>
+                    {/* <span>{props.product.rating}</span> */}
+                    <span>Offer Price : </span>
+                    <span>&#8377; {Math.round((props.product.price- (props.product.price/100)*props.product.offer))}</span>
                 </div>
             </div>
         </div>

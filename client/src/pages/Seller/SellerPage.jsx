@@ -34,7 +34,7 @@ export default function SellerPage() {
                     })
                     if(response.status === 200){
                         localStorage.setItem('sellerToken', response.data.newAccessToken)
-                        console.log(response.data)
+                        // console.log(response.data)
                         dispatch(login(response.data.seller))
                         navigate('/sellers/seller-account/dashboard');
                     }

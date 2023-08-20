@@ -6,10 +6,9 @@ export default function Products() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    axios.get('https://dummyjson.com/products').then((response) => {
+    axios.get(import.meta.env.VITE_SERVER_ADDRESS + '/products/fetch-all-product').then((response) => {
       if (response?.status == 200) {
-        setProducts(response?.data.products);
-        console.log(response.data.products);
+        setProducts(response?.data);
       }
     });
   }, []);
@@ -18,7 +17,7 @@ export default function Products() {
       <div className={styles.products_section}>
         {products.map(product => {
           return (
-            <div>
+            <div key={product.id}>
               <Product product={product}/>
             </div>
           )

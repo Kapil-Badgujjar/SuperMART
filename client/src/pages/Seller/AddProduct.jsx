@@ -47,9 +47,24 @@ export default function AddProducts() {
       <form ref={formReference} className={styles.add_product_form}>
         <input className={styles.add_product_input_box} type='text' name="productName" placeholder='Product name' />
         <input className={styles.add_product_input_box} type='number' name="price" placeholder='Product price' />
-        <input className={styles.add_product_input_box} type='number' name="stocks" placeholder='Stocks' />
-        <input className={styles.add_product_input_box} type='offer' name="offer" placeholder='Offer' />
-        <input className={styles.add_product_input_box} type='text' name="category" placeholder='Product category' />
+        <input className={styles.add_product_input_box} type='number' name="stocks" placeholder='Available Stock' />
+        <input className={styles.add_product_input_box} type='offer' name="offer" placeholder='Offer (%)' />
+        {/* <input className={styles.add_product_input_box} type='text' name="category" placeholder='Product category' /> */}
+        <select className={styles.add_product_input_box} name="category" >
+          <option value="Others" disabled >--- Select Category ---</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Mobiles">Mobiles</option>
+          <option value="Smart Gadgets">Smart Gadgets</option>
+          <option value="Laptops">Laptop</option>
+          <option value="Clothes">Clothes</option>
+          <option value="Deodorants">Deodorants</option>
+          <option value="Footwear">Footwear</option>
+          <option value="Accessories">Accessories</option>
+          <option value="Skin Care">Skin Care</option>
+          <option value="Home Appliences">Home Appliences</option>
+          <option value="Furniture">Furniture</option>
+          <option value="Others">Others</option>
+        </select>
         <textarea className={styles.add_product_textarea} type='text' name="description" placeholder='Product description' />
         <div><label>Choose product image: </label><input className={styles.add_product_input_box} type='file' name="productImage" /></div>
         <div>

@@ -4,8 +4,9 @@ import axios from "axios";
 const fetchCart = createAsyncThunk(
     'user/cart',
     async () => {
+        const token = localStorage.getItem('userToken');
         try{
-            const response = await axios.get(import.meta.env.VITE_SERVER_ADDRESS+`/cart/get-cart`,{withCredentials:true, headers: {'Content-Type': 'application/json'}});
+            const response = await axios.get(import.meta.env.VITE_SERVER_ADDRESS+`/cart/get-cart`,{withCredentials:true, headers: {'Content-Type': 'application/json', "Authorization": "Bearer "+token}});
             if(response.status === 200) return response.data; 
         } catch(error) {
             throw error;
@@ -24,21 +25,38 @@ export const userCartSlice = createSlice({
     initialState,
     reducers: {
         addProduct: (state, action) =>{
-
+            state.cart.push(action.payload);
         },
         removeProduct: (state, action) =>
         {
-
+            // console.log(action.payload);
+            const cart = state.cart.filter(item => item.product.id != action.payload.product.id);
+            state.cart = cart;
         },
         updateQuantity: (state, action) => {
-
+            const {id, flag} = action.payload;
+            state.cart = state.cart = state.cart.map((item)=>{
+                if(item.product.id === id){
+                    if(flag){
+                        item.quantity += 1
+                    } else {
+                        item.quantity -= 1
+                    }
+                }
+                return item;
+            })
+        },
+        addQuantity: (state, action) => {
+            const { id, quantity } = action.payload;
+            state.cart = state.cart.map((item)=>{
+                if(item.product.id === id){
+                    item.quantity += quantity;
+                }
+                return item;
+            })
         },
         resetCart: (state, action) => {
-            state =  {
-                cart: [],
-                status: 'idle',
-                error: null
-            }
+            state.cart =  [];
         }
     },
     extraReducers: (builder) => {
@@ -63,6 +81,6 @@ export const selectUserCart = (state) => state.cart.cart;
 export const selectCartStatus = (state) => state.cart.status;
 export const selectCartError = (state) => state.cart.error;
 
-export const { addProduct, removeProduct, updateQuantity, resetCart } = userCartSlice.actions;
+export const { addProduct, removeProduct, updateQuantity, addQuantity, resetCart } = userCartSlice.actions;
 
 export default userCartSlice.reducer;

@@ -1,6 +1,5 @@
 import React from 'react'
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
-import './App.css'
 import Root from './pages/Root/Root';
 import ErrorPage from './pages/Error/ErrorPage';
 import HomePage from './pages/Home/HomePage';
@@ -29,6 +28,8 @@ import AdminLogin from './pages/Admin/AdminLogin';
 import SellersTable from './pages/Admin/SellersTable';
 import AllProducts from './pages/Seller/AllProducts';
 import SellerPage from './pages/Seller/SellerPage';
+import './App.css'
+import Checkout from './pages/Checkout/Checkout';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -36,7 +37,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: '/',
+        path: 'home',
         element: <HomePage />,
       },
       {
@@ -72,7 +73,7 @@ const router = createBrowserRouter([
         element: <Categories />,
       },
       {
-        path: 'category/:id',
+        path: 'category/:category',
         element: <Category />,
       },
       {
@@ -90,6 +91,10 @@ const router = createBrowserRouter([
       {
         path: 'about',
         element: <About />
+      },
+      {
+        path: 'checkout',
+        element: <Checkout />
       }
     ]
   },
@@ -169,6 +174,14 @@ const router = createBrowserRouter([
         element: <AdminLogin />
       }
     ]
+  },
+  {
+    path: 'canceled',
+    element: <div>Order canceled</div>
+  },
+  {
+    path: 'success',
+    element: <div>Order Placed successfully</div>
   }
 ])
 

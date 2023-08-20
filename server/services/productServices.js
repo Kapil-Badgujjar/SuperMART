@@ -2,6 +2,7 @@ import { prisma } from '../prisma/prismaClientModule.js';
 import { firbaseStorage } from '../config/firebase.js';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
+
 async function addProduct(productDetails, imageFile){
     try{
         const fileName = uuidv4().toString() + '.' + imageFile.originalname.split('.').pop();
@@ -47,4 +48,25 @@ async function getAllProducts(){
     }
 }
 
-export  { getAllProducts, addProduct };
+async function getProductsByCategory(category){
+    try{
+        const products = await prisma.product.findMany({where: {category: category}});
+        return products;
+    } catch(error) {
+        console.log(error);
+        return [];
+    }
+}
+
+async function searchProduct(pattern){
+    try{
+        const products = await prisma.product.findMany({where: {productName: { contains: pattern, mode: 'insensitive' }}});
+        return products;
+    } catch(error) {
+        console.log(error);
+        return [];
+    }
+}
+
+
+export  { getAllProducts, addProduct, getProductsByCategory, searchProduct };

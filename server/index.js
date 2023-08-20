@@ -8,8 +8,6 @@ import Seller from './router/sellers.js';
 import Products from './router/products.js';
 import Admin from './router/admin.js';
 
-import { passport } from './middlewares/passport-jwt_authentication.js'
-
 app.use(cors({
     origin: 'http://localhost:5173',
     credentials: true
@@ -18,7 +16,6 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.static('./public'));
-app.use(passport.initialize());
 
 app.use('/user',User);
 app.use('/cart',Cart);

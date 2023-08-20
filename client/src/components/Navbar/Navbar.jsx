@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Navbar.module.css';
 import logo from '/logo.png';
@@ -9,8 +9,8 @@ import userprofile from '/icons/user.png';
 import Button from '../Button/Button';
 import CartProduct from '../CartProducts/CartProduct';
 import { useDispatch, useSelector } from "react-redux";
-import { selectUserDetail, login, logout } from "../../features/user/userSlice";
-import { selectUserCart, selectCartStatus, selectCartError, fetchCart } from "../../features/userCart/userCartSlice";
+import { selectUserDetail, logout } from "../../features/user/userSlice";
+import { selectUserCart, selectCartStatus, selectCartError, resetCart } from "../../features/userCart/userCartSlice";
 import axios from 'axios';
 
 export default function Navbar() {
@@ -36,6 +36,7 @@ export default function Navbar() {
         localStorage.removeItem('userRefreshToken');
         localStorage.removeItem('userToken');
         dispatch(logout());
+        dispatch(resetCart());
         navigate('/login');
         }
     } catch(err) {
@@ -43,44 +44,12 @@ export default function Navbar() {
     }
   }
 
-  useEffect(() => {
-    const token = localStorage.getItem('userToken') || undefined;
-    const refreshToken = localStorage.getItem('userRefreshToken') || undefined;
-    console.log(refreshToken);
-    async function getDetails() {
-      try{
-        const response = await axios.post(import.meta.env.VITE_SERVER_ADDRESS + '/user/check-passportjwt',{}, {withCredentials: true, 
-          headers: { "Content-Type": "application/json", 'Authorization': 'Bearer ' + token },
-        })
-        dispatch(login(response.data));
-        dispatch(fetchCart());
-      } catch (error) {
-        console.log(error.message);
-        try{
-          const response = await axios.get(import.meta.env.VITE_SERVER_ADDRESS + '/user/refresh-token', {
-            withCredentials: true,
-            headers: {
-              "Authorization": "Bearer " + refreshToken
-            }
-          });
-          localStorage.setItem('userToken', response.data.newAccessToken);
-          dispatch(fetchCart());
-        }
-        catch (err) {
-          console.log(err.message);
-          navigate('/login');
-         }
-      }
-    }
-    getDetails();
-  },[]);
-
   return (
     <div className={styles.navbar_container}>
       <div className={styles.navbar}>
         <div className={styles.left_side}>
-          <img src={logo} alt='logo image' className={styles.logo_image} onClick={()=>{navigate('/')}}/>
-          <Link to='/'>SuperMART</Link>
+          <img src={logo} alt='logo image' className={styles.logo_image} onClick={()=>{navigate('/home')}}/>
+          <Link to='/home'>SuperMART</Link>
         </div>
         <div className={styles.menu_button_container}>
           <img
@@ -91,7 +60,7 @@ export default function Navbar() {
           />
         </div>
           <div className={styles.center}>
-            <Link to='/'>Home</Link>
+            <Link to='/home'>Home</Link>
             <Link to='/products'>Products</Link>
             <Link to='/categories'>Categories</Link>
             <Link to='/search'>Search</Link>
@@ -116,7 +85,7 @@ export default function Navbar() {
                 </div>
                 <div className={styles.cart_box} onClick={()=>{ setShowCart(prev => !prev)}}>
                   <img className={styles.cart_icon} src={cartimage} />
-                    { cart && <div className={styles.cart_counter}> {cart.length } </div> }
+                    { cart?.length > 0 && <div className={styles.cart_counter}> {cart.length} </div> }
                 </div>
             </div>
           }
@@ -128,7 +97,7 @@ export default function Navbar() {
             onClick={() => setSideMenu(false)}
           ></div>
           <div className={styles.right_side}>
-            <Link to='/' onClick={() => setSideMenu(false)}>Home</Link>
+            <Link to='/home' onClick={() => setSideMenu(false)}>Home</Link>
             <Link to='/categories' onClick={() => setSideMenu(false)}>Categories</Link>
             <Link to='/products'  onClick={() => setSideMenu(false)}>products</Link>
             <Link to='/search' onClick={() => setSideMenu(false)}>Search</Link>
@@ -155,16 +124,18 @@ export default function Navbar() {
               {/* Rendering cart products */}
               { cart.map((item)=>{
                 return(
-                  <CartProduct product={item} />
+                  <div key={item.product.id}>
+                    <CartProduct item={item} />
+                  </div>
                 )
               })}
             </div>
           </div>
           <div className={styles.cart_bottom}>
             <hr />
-            <div className={styles.total_cart_price}><span>Total price:</span><span>&#8377; {cart.reduce((totalSum, item) => totalSum + Number(item.price), 0)}</span></div>
+            <div className={styles.total_cart_price}><span>Total price:</span><span>&#8377; {cart.reduce((totalSum, item) => totalSum + Number(item.product.price*item.quantity), 0)}</span></div>
             <div className={styles.checkout_btn}>
-              <Button value="Checkout" action={()=>{}} />
+              <Button value="Checkout" action={()=>{setShowCart(false); navigate('/checkout')}} />
             </div>
           </div>
         </div>

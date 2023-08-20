@@ -21,12 +21,9 @@ export default function Login() {
 
  useEffect(() => {
     console.log(user.name);
-    { user.name && navigate("/"); }
+    { user.name && navigate("/home"); }
   },[user]);
 
-useEffect(() => {
-
-});
 
   async function userLogin(event) {
     event.preventDefault();

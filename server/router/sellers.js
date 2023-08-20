@@ -4,12 +4,12 @@ import { v4 as uuidv4 } from 'uuid'
 import jwt from 'jsonwebtoken'
 const router = express.Router()
 import {} from 'dotenv/config'
-import { passport } from '../middlewares/passport-jwt_sellers.js';
+import authenticateSeller from '../middlewares/authMiddlewareSeller.js'
 import { prisma } from '../prisma/prismaClientModule.js'
 
-router.route('/get-seller-details').get(passport.authenticate('jwt',{ session: false}), async (req, res)=> {
-    console.log(req.user, ' --- get seller details')
-    res.status(200).send(req.user);
+router.route('/get-seller-details').get( authenticateSeller, async (req, res)=> {
+    console.log(req.seller)
+    res.status(200).send(req.seller);
 });
 
 router.route('/refresh-token').get(async (req, res)=> {
@@ -32,9 +32,7 @@ router.route('/refresh-token').get(async (req, res)=> {
 });
 router.route('/login').post(async (req,res)=>{
     console.log(req.body);
-    //if email or password is empty or undefined send error
     if(!req.body.email || !req.body.password) res.status(403).send({"message": "email/password empty"});
-    
     try{
         const response = await getSeller(req.body.email, req.body.password);
         const seller = {
@@ -43,7 +41,6 @@ router.route('/login').post(async (req,res)=>{
             email: response.email,
             phoneNumber: response.phoneNumber
         }
-        //if seller exists send back details
         if(seller){
             console.log(seller, ' --- login');
             const accessToken = jwt.sign(seller, process.env.SELLER_ACCESS_TOKEN_SECRET, { expiresIn: '30m'});
@@ -77,18 +74,18 @@ router.route('/register').post( async (req, res) => {
     res.status(200).send(response);
 })
 
-router.route('/get-my-products').get(passport.authenticate('jwt', { session: false}), async (req, res) => {
+router.route('/get-my-products').get(authenticateSeller, async (req, res) => {
     try {
-        const response = await prisma.product.findMany({ where: { sellerId: req.user.id}});
+        const response = await prisma.product.findMany({ where: { sellerId: req.seller.id}});
         res.status(200).send(response);
     } catch (err) {
         res.status(500).send({ message: 'server error' });
     }
 });
 
-router.route('/get-my-orders').get(passport.authenticate('jwt',{ session: false }), async (req, res) => {
+router.route('/get-my-orders').get( authenticateSeller, async (req, res) => {
     try {
-        const response = await prisma.order.findMany({ where: { sellerId: req.user.id}});
+        const response = await prisma.order.findMany({ where: { sellerId: req.seller.id}});
         res.status(200).send(response);
     } catch (err) {
         console.log(err);

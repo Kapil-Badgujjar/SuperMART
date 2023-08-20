@@ -1,0 +1,23 @@
+.productRow {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    align-items: center;
+    width: 100%;
+    margin: 10px;
+    background-color: white;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+.productImage {
+    width: 100px;
+}
+
+.productName {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: gray;
+}
