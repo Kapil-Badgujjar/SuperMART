@@ -32,7 +32,7 @@ export default function About() {
               About SuperMART
             </h2>
             <p>
-              SuperMART is a modern E Commerce web application. It provides a great user experience and attractive user interface to the user. Main features of the SuperMART includes<br/>
+              SuperMART is a modern E Commerce web application. It provides a great user experience and attractive user interface to its users. Main features of the SuperMART includes<br/>
             </p>
             <br/>
               <ul className={styles.main_features}>
