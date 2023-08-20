@@ -9,7 +9,7 @@ import Products from './router/products.js';
 import Admin from './router/admin.js';
 
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: 'https://advanced-supermart-frontend.vercel.app',
     credentials: true
 }))
 
