@@ -5,7 +5,7 @@
     box-sizing: border-box;
     background-color: #22333B;
     height: 56px;
-    font-family: 'Nunito Sans', sans-serif;
+    font-family: 'Poppins', sans-serif;
     z-index: 100;
   }
   
@@ -53,6 +53,15 @@
     gap: 1.3rem;
   }
   
+  .center > a {
+    text-align: center;
+    padding: 8px;
+    min-width: 80px;
+  }
+  .center > a:hover {
+    background-color: rgba(255, 255, 255, 0.300);
+  }
+  
   /* Right side (search, profile, favorite, cart) styles */
   .right_side {
       display: none; /* Initially hidden for small screens */
@@ -80,6 +89,7 @@
     cursor: pointer;
     position: relative;
   }
+
   .cart_icon {
     width: 35px;
   }
@@ -211,17 +221,27 @@
     display: flex;
   }
 
+  .top_space {
+    height: 8px;
+  }
   .user_menu_options {
     display: flex;
     flex-direction: column;
+    gap: 4px;
     padding: 20px;
-    min-width: 150px;
+    min-width: 250px;
     color: white;
-    background-color: #22333B;
-    border-radius: 8px;
+    background-color: rgba(34, 51, 59, 0.7);
+    backdrop-filter: blur(8px);
+    border-radius: 6px;
   }
-  .top_space {
-    height: 20px;
+  .user_menu_options>span{
+    cursor: pointer;
+    padding: 2px 8px;
+    border-radius: 2px;
+  }
+  .user_menu_options>span:hover{
+    background-color: rgba(255, 255, 255, 0.300);
   }
 
   .cart_top {

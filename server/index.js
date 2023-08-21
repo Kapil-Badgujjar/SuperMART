@@ -9,14 +9,20 @@ import Admin from './router/admin.js';
 
 const app = express();
 
-const allowedOrigins = process.env.CLIENT_URL;
+const allowedOrigins = [process.env.CLIENT_URL];
 
 app.use(cors({
+    origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
-    origin: allowedOrigins,
-    allowedHeaders: [
-        'Authorization',
-    ],
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Authorization', 'Content-Type'],
+    optionsSuccessStatus: 204,
 }));
 
 app.use(express.json());

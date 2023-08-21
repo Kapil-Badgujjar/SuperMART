@@ -10,7 +10,7 @@
     padding: 20px;
     margin: 0 auto;
     font-size: 1.2rem;
-    font-family: 'Barlow', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 .msg_from_dev, .about, .details{
     display: flex;
@@ -30,6 +30,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: grey;
 }
 .msg_close {
     cursor: pointer;

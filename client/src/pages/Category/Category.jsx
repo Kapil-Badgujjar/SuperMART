@@ -12,7 +12,6 @@ export default function Category() {
         setProducts(response?.data);
       }
     });
-    console.log(category);
   },[]);
   return (
     <div className={styles.products_container}>

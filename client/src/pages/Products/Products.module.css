@@ -1,7 +1,7 @@
 .products_container {
     max-width: 1236px;
     margin: 0 auto;
-
+    font-family: 'Poppins', sans-serif;
 }
 .products_section {
     display: flex;

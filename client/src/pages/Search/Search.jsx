@@ -14,7 +14,7 @@ export default function Search() {
       return;
     }
     try{
-      axios.post(import.meta.env.VITE_SERVER_ADDRESS + '/products/search-product', {pattern}).then((response) => {
+      axios.post(import.meta.env.VITE_SERVER_ADDRESS + '/products/search-product', {pattern}, { withCredentials: true, headers: { "Authorization": "Bearer"}}).then((response) => {
         if(response.status == 200 ){
           console.log(response.data);
           setProducts(response.data)

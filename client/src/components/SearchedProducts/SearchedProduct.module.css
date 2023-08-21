@@ -1,7 +1,7 @@
 .product {
     display: flex;
     gap: 20px;
-    font-family: 'Nunito Sans', sans-serif;
+    font-family: 'Poppins', sans-serif;
     outline: 1px solid rgba(0, 0, 0, 0.2);
     padding: 3px;
 }

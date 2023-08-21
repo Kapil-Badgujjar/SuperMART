@@ -12,8 +12,8 @@ const fetchUser = createAsyncThunk(
                 localStorage.setItem('userRefreshToken', response.data.refreshToken);
                 return response.data.user;
             }
-
         } catch (error){
+            console.log(error);
             error.message = error.response.data.message;
             throw error;
         }

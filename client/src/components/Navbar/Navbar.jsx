@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Navbar.module.css';
 import logo from '/logo.png';
@@ -43,6 +43,10 @@ export default function Navbar() {
       console.log(err.message)
     }
   }
+
+  useEffect(()=>{
+    if(user?.id && cart.status === 'idle') dispatch(fetchCart());
+  },[]);
 
   return (
     <div className={styles.navbar_container}>

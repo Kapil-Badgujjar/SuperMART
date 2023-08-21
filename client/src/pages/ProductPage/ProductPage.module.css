@@ -1,5 +1,5 @@
 .product_page_container {
-
+    font-family: 'Poppins', sans-serif;
 }
 .product_page {
     max-width: 100%;
@@ -30,6 +30,14 @@
     gap: 10px;
     /* outline: 2px solid black; */
 }
+.line_through_text {
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+    color: gray;
+}
+.green_text {
+    color: green;
+}
 .btns {
     display: flex;
     align-items: center;
@@ -38,15 +46,6 @@
     flex-wrap: wrap;
     gap: 8px;
 }
-/* .btns > span {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    background-color: black;
-    padding:6px;
-    width: 30px;
-} */
 .btns > p {
     display: flex;
     justify-content: center;
@@ -54,12 +53,12 @@
     /* border: 2px solid black; */
     margin-right: 5px;
     outline: 2px solid black;
-    padding:1px 2px 2px 2px;
-    width: 30px;
+    padding: 2px;
+    width: 36px;
     box-shadow: 2px 2px 1px 3px rgba(0, 0, 0, 0.3);
 }
 .btns > Button {
-    padding: 8px 20px;
+    padding: 12px 20px;
     margin-right: 5px;
     width:fit-content;
     white-space: nowrap;

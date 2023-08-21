@@ -1,5 +1,7 @@
 .footer_container {
     background-color: #0A0908;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
 }
 .footer{
     max-width: 1236px;

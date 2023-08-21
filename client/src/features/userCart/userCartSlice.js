@@ -29,7 +29,6 @@ export const userCartSlice = createSlice({
         },
         removeProduct: (state, action) =>
         {
-            // console.log(action.payload);
             const cart = state.cart.filter(item => item.product.id != action.payload.product.id);
             state.cart = cart;
         },
@@ -61,8 +60,7 @@ export const userCartSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(fetchCart.pending, (state, action)=>{
-            state.status = 'pending';
-
+            state.status = 'loading';
         })
         .addCase(fetchCart.fulfilled, (state, action)=>{
             state.status = 'successed';
@@ -76,11 +74,8 @@ export const userCartSlice = createSlice({
 });
 
 export { fetchCart };
-
 export const selectUserCart = (state) => state.cart.cart;
 export const selectCartStatus = (state) => state.cart.status;
 export const selectCartError = (state) => state.cart.error;
-
 export const { addProduct, removeProduct, updateQuantity, addQuantity, resetCart } = userCartSlice.actions;
-
 export default userCartSlice.reducer;
