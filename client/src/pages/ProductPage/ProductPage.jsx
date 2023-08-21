@@ -107,7 +107,8 @@ export default function ProductPage() {
               <br />
               <p>{product?.description}</p>
               <br />
-              <h3>&#8377; {product.price}</h3>
+              <h3 className={Number(product.offer) > 0 && styles.line_through_text}>Price: &#8377; {product.price}</h3>
+              { Number(product.offer) > 0 && <h3 className={Number(product.offer) > 0 && styles.green_text}>Offer Price: &#8377; {Math.round(product.price-product.price/100*product.offer)}</h3> }
             </div>
             <div className={styles.btns}>
               <Button
@@ -128,9 +129,9 @@ export default function ProductPage() {
                 }}
               />
             </div>
-            <div>
+            {/* <div>
               <span>Facebook</span><span>Instagram</span><span>WhatsApp</span><span>Gmail</span>
-            </div>
+            </div> */}
           </div>
         </div>
         <h2 className={styles.review_heading}>Reviews</h2>

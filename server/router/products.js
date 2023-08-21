@@ -50,7 +50,6 @@ router.route('/search-product').post(async (req, res) => {
 
 router.route('/get-product-ratings-reviews/:id').get(async (req, res) => {
         const id = req.params.id;
-        console.log(id);
         const ratings = await getRatingReviews(id);
         if(ratings){
             res.status(200).send(ratings);

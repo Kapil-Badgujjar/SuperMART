@@ -59,7 +59,6 @@ router.route('/login').post(async (req, res) => {
     try{
         const user = await getUser(req.body.userId, req.body.password);     // getUser function called with email and password
         if(user) { 
-            console.log(user);
 
             // Create access token and refresh token
             const accessToken = jwt.sign( user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30m'});
@@ -168,7 +167,6 @@ router.route('/orders').get(authenticateUser, async (req, res)=>{
 });
 
 router.route('/cancel-product-order').post(authenticateUser, async (req,res)=>{
-    console.log(req.body.id);
     const response = await cancelOrder(req.body.id);
     await invalidateRatingReview(req.user.id, req.productId );
     if(response) res.status(200).send({message: 'Success'});

@@ -3,34 +3,33 @@ import styles from "./Login.module.css";
 import Button from "../../components/Button/Button";
 import sb from "/bk.jpg";
 import { Link, useNavigate } from "react-router-dom";
-
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../../features/user/userSlice";
 import { selectUserDetail, selectUserStatus, selectUserErrors } from "../../features/user/userSlice";
-import { fetchCart, selectUserCart } from "../../features/userCart/userCartSlice";
+import { fetchCart } from "../../features/userCart/userCartSlice";
 
 export default function Login() {
   let formRef = useRef(null);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const userCart = useSelector(selectUserCart) || undefined;
   const user = useSelector(selectUserDetail) || undefined;
   const status = useSelector(selectUserStatus) || undefined;
   let errors = useSelector(selectUserErrors) || undefined;
 
  useEffect(() => {
-    console.log(user.name);
     { user.name && navigate("/home"); }
   },[user]);
-
 
   async function userLogin(event) {
     event.preventDefault();
     const formData = new FormData(formRef.current);
+    console.log(formData.get('email'));
     try {
-      dispatch(fetchUser(formData));
-      dispatch(fetchCart());
+      if(status !== 'loading') {
+        dispatch(fetchUser(formData));
+      } else {
+        setTimeout(() => userLogin(event), 3000);
+      }
     } catch (err) {
       errors = err.message;
     }
@@ -62,7 +61,6 @@ export default function Login() {
               userLogin(e);
             }}
           />
-          {/* <input type='submit' value="Sumbint" onClick={(event)=>{userLogin(event)}}/> */}
         </div>
 
         <Link to="/forgot-password">Forgot Password</Link>
