@@ -1,28 +1,35 @@
+import 'dotenv/config';
 import express from 'express';
-const app = express();
 import cors from 'cors';
-
 import User from './router/users.js';
 import Cart from './router/cart.js';
 import Seller from './router/sellers.js';
 import Products from './router/products.js';
 import Admin from './router/admin.js';
 
+const app = express();
+
+const allowedOrigins = process.env.CLIENT_URL;
+
 app.use(cors({
-    origin: 'https://advanced-supermart-frontend.vercel.app',
-    credentials: true
-}))
+    credentials: true,
+    origin: allowedOrigins,
+    allowedHeaders: [
+        'Authorization',
+    ],
+}));
 
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
+
 app.use(express.static('./public'));
 
-app.use('/user',User);
-app.use('/cart',Cart);
-app.use('/sellers',Seller);
-app.use('/products',Products);
-app.use('/admin',Admin);
+app.use('/user', User);
+app.use('/cart', Cart);
+app.use('/sellers', Seller);
+app.use('/products', Products);
+app.use('/admin', Admin);
 
-app.listen(7777, (err)=>{
-    if(!err) console.log('Server started...');
-})
+app.listen(7777, () => {
+    console.log('Server started on port 7777');
+});
