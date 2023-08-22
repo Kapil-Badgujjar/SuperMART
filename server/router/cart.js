@@ -34,8 +34,4 @@ router.route('/update-cart').post( authenticateUser, async (req, res) => {
     else res.status(500).send({message: 'failed to update quantity'});
 });
 
-router.route('/checkout').post(authenticateUser, (req,res) => {
-    
-});
-
 export default router;

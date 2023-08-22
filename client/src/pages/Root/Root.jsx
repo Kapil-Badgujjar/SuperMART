@@ -23,11 +23,14 @@ export default function Root() {
           navigate('/home');
         } else {
           response = await getData('/user/refresh-token', userRefreshToken);
+          console.log(response);
           if(response?.status === 200){
-            dispatch(login(response.data));
+            localStorage.setItem('userToken', response.data.newAccessToken);
+            dispatch(login(response.data.user));
             navigate('/home');
           } else {
             navigate('/login');
+            return;
           }
         }
       } catch (error) {

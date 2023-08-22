@@ -14,6 +14,10 @@ router.route('/get-seller-details').get( authenticateSeller, async (req, res)=> 
 
 router.route('/refresh-token').get(async (req, res)=> {
     const token = req.headers['authorization'].split(' ')[1];
+    if(!refreshToken) { 
+        res.status(401).send({message: 'Access Denied'});
+        return;
+    }
     const response = await prisma.token.findFirst({where: {refreshToken: token}})
     if(response){
         const data = jwt.verify(token, process.env.SELLER_REFRESH_TOKEN_SECRET);
@@ -57,8 +61,12 @@ router.route('/login').post(async (req,res)=>{
 })
 
 router.route('/logout').get(async (req,res) => {
-    const token = req.headers['authorization'].split(' ')[1];
-    prisma.token.delete({where: { refreshToken: token}})
+    const refreshToken = req.headers['authorization'].split(' ')[1];
+    if(!refreshToken) { 
+        res.status(401).send({message: 'Access Denied'});
+        return;
+    }
+    prisma.token.delete({where: { refreshToken: refreshToken}})
     res.status(200).send({'message': 'Token has been deleted'});
 });
 
