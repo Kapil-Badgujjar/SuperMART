@@ -10,13 +10,18 @@ import stripeFunction from '../utils/stripe.js';
 import { addUpdateRating, addUpdateReview, invalidateRatingReview } from '../services/ratingReviewServices.js';
 
 // Authenticate users and send back user details
-router.route('/get-user-details').get(authenticateUser, async (req, res) =>  res.status(200).send(req.user));
+router.route('/get-user-details').get(authenticateUser, async (req, res) =>  res.status(200).send({id: req.user.id, name: req.user.name, email: req.user.email, phoneNumber: req.user.phoneNumber}));
 
 // Route to refresh user access token if exipired
-router.route('/refresh-token').get( async (req, res) => {
+router.route('/refresh-token').get(async (req, res) => {
 
     // Extract user access token from header 
     const refreshToken = req.headers['authorization'].split(' ')[1];
+
+    if(!refreshToken) { 
+        res.status(401).send({message: 'Access Denied'});
+        return;
+    }
 
     try {
         // Check if the refresh token present in our records/database
@@ -38,7 +43,7 @@ router.route('/refresh-token').get( async (req, res) => {
             const newAccessToken = jwt.sign( user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30m'});
 
             // send the response back to client
-            res.status(200).send({ newAccessToken: newAccessToken });
+            res.status(200).send({ newAccessToken: newAccessToken, user: user});
         } else {
             // If token is invalid
             res.status(403).send({ message: 'Access denied'});
@@ -55,7 +60,10 @@ router.route('/refresh-token').get( async (req, res) => {
 router.route('/login').post(async (req, res) => {
 
     // Check for email and password is not empty
-    if(!req.body.email || !req.body.password) { res.status(403).send('Please enter your email and password'); return; }
+    if(!req.body.email || !req.body.password) { 
+        res.status(403).send('Please enter your email and password');
+        return;
+    }
     try{
         const user = await getUser(req.body.userId, req.body.password);     // getUser function called with email and password
         if(user) { 
@@ -85,12 +93,17 @@ router.route('/login').post(async (req, res) => {
 // Logout route
 router.route('/logout').get(async (req,res)=>{
     // Extract the refresh token from headers
-    const token = req.headers['authorization'].split(' ')[1];
+    const refreshToken = req.headers['authorization'].split(' ')[1];
+
+    if(!refreshToken) { 
+        res.status(401).send({message: 'Access Denied'});
+        return;
+    }
 
     try {
 
         // Delete the refresh token from the database
-        await prisma.token.delete({where: { refreshToken: token }});
+        await prisma.token.delete({where: { refreshToken: refreshToken }});
 
         // Send back the response
         res.status(200).send({message: 'Logout successfully'});
@@ -104,7 +117,13 @@ router.route('/logout').get(async (req,res)=>{
 
 // Get user address 
 router.route('/get-user-address').get(authenticateUser, async (req, res)=>{
+    if(!req.user?.id) { 
+        res.status(401).send({message: 'Access Denied'});
+        return;
+    }
+
     const address = await getUserAddress(req.user.id);
+
     if(address) {
         res.status(200).send({address: address});
     } else {
@@ -114,7 +133,10 @@ router.route('/get-user-address').get(authenticateUser, async (req, res)=>{
 
 // Signup route
 router.route('/signup').post(async (req, res) => {
-
+    if(!req.body) { 
+        res.status(401).send({message: 'Access Denied'});
+        return;
+    }
     // Add new user
     const response = await addUser( req.body );     // addUser function
 
@@ -131,14 +153,16 @@ router.route('/signup').post(async (req, res) => {
 
 router.route('/forgot-password').post((req,res) => {
     console.log(req.body);
+    res.status(200).send({message: "Successfully forgot password"});
 });
 
 router.route('/update-password').post((req,res) => {
     console.log(req.body);
+    res.status(200).send({message: "Successfully updated password"});
 });
 
 router.route('/make-order-session').post(authenticateUser, async (req, res) => {
-    stripeFunction(req.body.address, req.user.id, res);
+    return stripeFunction(req.body.address, req.user.id, res);
 });
 
 router.route('/order-success/:payment_id').get(async (req,res)=>{

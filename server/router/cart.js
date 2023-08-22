@@ -1,7 +1,7 @@
 import express from 'express'
 const router = express.Router()
 import authenticateUser from '../middlewares/authMiddlewareUser.js';
-import { addProduct, removeProduct, getCartData, updateCartItemQuantity} from '../services/CartServices.js';
+import { addProduct, removeProduct, getCartData, updateCartItemQuantity} from '../services/cartServices.js';
 
 router.route('/get-cart').get( authenticateUser, async (req, res) => {
     const data = await getCartData(req.user.id);
@@ -32,10 +32,6 @@ router.route('/update-cart').post( authenticateUser, async (req, res) => {
     const response = await updateCartItemQuantity(req.body.item, req.body.quantity, req.user.id)
     if(response) res.status(200).send({message: 'Successful'});
     else res.status(500).send({message: 'failed to update quantity'});
-});
-
-router.route('/checkout').post(authenticateUser, (req,res) => {
-    
 });
 
 export default router;

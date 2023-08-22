@@ -220,7 +220,6 @@
   .user_float_menu:hover, .user_float_menu > div:hover, .user_float_menu > span:hover {
     display: flex;
   }
-
   .top_space {
     height: 8px;
   }
@@ -243,7 +242,6 @@
   .user_menu_options>span:hover{
     background-color: rgba(255, 255, 255, 0.300);
   }
-
   .cart_top {
     display: flex;
     justify-content: space-between;

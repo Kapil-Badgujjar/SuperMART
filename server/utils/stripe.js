@@ -28,7 +28,7 @@ async function stripeFunction(address,userId,res) {
     success_url: process.env.SERVER_URL + `/user/order-success/${payment_id}`,
     cancel_url: process.env.SERVER_URL + `/user/order-cancel/${payment_id}`
   });
-  res.json({url: session.url});
+  res.status(200).json({url: session.url});
 };
 
 export default stripeFunction;
