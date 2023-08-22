@@ -1,7 +1,7 @@
 import express from 'express'
 const router = express.Router()
 import authenticateUser from '../middlewares/authMiddlewareUser.js';
-import { addProduct, removeProduct, getCartData, updateCartItemQuantity} from '../services/CartServices.js';
+import { addProduct, removeProduct, getCartData, updateCartItemQuantity} from '../services/cartServices.js';
 
 router.route('/get-cart').get( authenticateUser, async (req, res) => {
     const data = await getCartData(req.user.id);
