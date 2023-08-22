@@ -3,6 +3,7 @@ const router = express.Router()
 
 router.route('/login').post((req, res) => {
     console.log(req.body);
+    res.status(200).send({ message: "Success!" });
 });
 
 router.route('/get-seller').get((req, res) => {
