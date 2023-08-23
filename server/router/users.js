@@ -8,6 +8,7 @@ import authenticateUser from '../middlewares/authMiddlewareUser.js';    // authe
 import { prisma } from '../prisma/prismaClientModule.js';   // Prisma client
 import stripeFunction from '../utils/stripe.js';
 import { addUpdateRating, addUpdateReview, invalidateRatingReview } from '../services/ratingReviewServices.js';
+import { testEmail, testPassword, testPhoneNumber } from '../utils/dataValidator.js';
 
 // Authenticate users and send back user details
 router.route('/get-user-details').get(authenticateUser, async (req, res) =>  res.status(200).send({id: req.user.id, name: req.user.name, email: req.user.email, phoneNumber: req.user.phoneNumber}));
@@ -60,10 +61,19 @@ router.route('/refresh-token').get(async (req, res) => {
 router.route('/login').post(async (req, res) => {
 
     // Check for email and password is not empty
-    if(!req.body.email || !req.body.password) { 
-        res.status(403).send('Please enter your email and password');
+    if(!req.body.email && !req.body.password) { 
+        res.status(403).send({message: '* Please enter your email and password'});
         return;
     }
+
+    if(!testEmail(req.body.email)){
+        res.status(400).send({message: '* Please enter valid email address'});
+        return;
+    }else if(!testPassword(req.body.password)){
+        res.status(400).send({message: '* Password must match [a-zA-Z0-9$!@#...]'});
+        return;
+    }
+
     try{
         const user = await getUser(req.body.userId, req.body.password);     // getUser function called with email and password
         if(user) { 
@@ -76,7 +86,7 @@ router.route('/login').post(async (req, res) => {
             const response = await prisma.token.create({data: { refreshToken: refreshToken}});
 
             // Check if token is saved successfully and send the response
-            if(response) res.status(200).send({user, accessToken, refreshToken});
+            if(response) res.status(200).send({message: 'Logged In successfully', user, accessToken, refreshToken});
             else res.status(403).send({msg: 'login failed, please check your credentials and try again'});
         } else {
 
@@ -137,6 +147,32 @@ router.route('/signup').post(async (req, res) => {
         res.status(401).send({message: 'Access Denied'});
         return;
     }
+    console.log(req.body);
+    if(!req.body.name){
+        res.status(400).send({ message: 'Please enter a name'});
+        return;
+    } else if(!testPhoneNumber(req.body.phoneNumber)){
+        res.status(400).send({ message: 'Please enter phone number'});
+        return;
+    }else if(!req.body.dateOfBirth||req.body.dateOfBirth.length !== 10){
+        res.status(400).send({ message: 'Please enter date of birth'});
+        return;
+    }else if(!testEmail(req.body.email)){
+        res.status(400).send({ message: 'Please enter valid email address'});
+        return;
+    }else if(!testPassword(req.body.password)){
+        res.status(400).send({ message: 'Enter a strong password [a-zA-Z0-9$!@#...]'});
+        return;
+    }else if(req.body.password !== req.body.confirmPassword){
+        res.status(400).send({ message: 'Confirm Password not matched'});
+        return;
+    } else if(!req.body.gender){
+        res.status(400).send({ message: 'Please select a gender'});
+        return;
+    }else if(!req.body.address){
+        res.status(400).send({ message: 'Please enter an address'});
+        return;
+    }
     // Add new user
     const response = await addUser( req.body );     // addUser function
 
@@ -145,9 +181,10 @@ router.route('/signup').post(async (req, res) => {
      * 
      * 
      * ***********/
+    console.log(response); //
 
     // If Response received
-    if(response)  res.status(200).send(response); // Send response back to client
+    if(response)  res.status(200).send({message: 'Signup successfully'}); // Send response back to client
     else res.status(500).send({message: 'Signup failed'}); //send error response back to client
 })
 

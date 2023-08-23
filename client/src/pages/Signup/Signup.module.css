@@ -1,6 +1,6 @@
 .form_container{
     min-height: calc(100vh - 84px);
-    font-family: 'Nunito Sans', sans-serif;
+        font-family: 'Poppins', sans-serif;
 }
 .signup_form {
     display: flex;
@@ -14,9 +14,13 @@
     backdrop-filter: blur(10px);
 }
 .error {
-    color: rgb(255, 60, 0);
-    height: 1rem;
-    font-weight: bold;
+    color: rgb(255, 0, 0);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    max-width: 400px;
+    height: 1.5rem;
 }
 .input_box {
     box-sizing: border-box;
