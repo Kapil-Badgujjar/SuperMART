@@ -6,6 +6,7 @@ const router = express.Router()
 import {} from 'dotenv/config'
 import authenticateSeller from '../middlewares/authMiddlewareSeller.js'
 import { prisma } from '../prisma/prismaClientModule.js'
+import { testEmail, testPassword, testPhoneNumber } from '../utils/dataValidator.js'
 
 router.route('/get-seller-details').get( authenticateSeller, async (req, res)=> {
     console.log(req.seller)
@@ -13,12 +14,12 @@ router.route('/get-seller-details').get( authenticateSeller, async (req, res)=> 
 });
 
 router.route('/refresh-token').get(async (req, res)=> {
-    const token = req.headers['authorization'].split(' ')[1];
+    const refreshToken = req.headers['authorization'].split(' ')[1];
     if(!refreshToken) { 
         res.status(401).send({message: 'Access Denied'});
         return;
     }
-    const response = await prisma.token.findFirst({where: {refreshToken: token}})
+    const response = await prisma.token.findFirst({where: {refreshToken: refreshToken}})
     if(response){
         const data = jwt.verify(token, process.env.SELLER_REFRESH_TOKEN_SECRET);
         const seller = {
@@ -71,6 +72,25 @@ router.route('/logout').get(async (req,res) => {
 });
 
 router.route('/register').post( async (req, res) => { 
+    if(!req.body) { 
+        res.status(401).send({message: 'Access Denied'});
+        return;
+    }
+    console.log(req.body);
+    if(!req.body.name){
+        res.status(200).send({isValid: false, message: 'Please enter a name'});
+        return;
+    } else if(!testPhoneNumber(req.body.phoneNumber)){
+        res.status(200).send({isValid: false, message: 'Please enter phone number'});
+        return;
+    }else if(!testEmail(req.body.email)){
+        res.status(200).send({isValid: false, message: 'Please enter valid email address'});
+        return;
+    }else if(!testPassword(req.body.password)){
+        res.status(200).send({isValid: false, message: 'Enter a strong password [a-zA-Z0-9$!@#..'});
+        return;
+    }
+
     console.log('\n-----New Seller Details-----\n',req.body,'\n');
     const seller = {
         ...req.body,
@@ -79,7 +99,8 @@ router.route('/register').post( async (req, res) => {
         "passwordUpdateToken": uuidv4(),
     }
     const response = await addSeller( seller);
-    res.status(200).send(response);
+    if(response) res.status(200).send({isValid: true, message: 'Done'});
+    else res.status(500).send({ message: 'server error' });
 })
 
 router.route('/get-my-products').get(authenticateSeller, async (req, res) => {

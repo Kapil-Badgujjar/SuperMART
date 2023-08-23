@@ -13,7 +13,6 @@ const fetchUser = createAsyncThunk(
                 return response.data.user;
             }
         } catch (error){
-            console.log(error);
             error.message = error.response.data.message;
             throw error;
         }
