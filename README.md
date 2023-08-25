@@ -39,6 +39,11 @@ Live preview: [Visit application](https://advanced-supermart-frontend.vercel.app
 ### Cart page
 ![Screenshot (116)](https://github.com/Kapil-Badgujjar/New_Project_1/assets/97542536/0f57f664-2a61-468d-86c3-085044d11115)
 
+### User Options popup
 ![Screenshot (115)](https://github.com/Kapil-Badgujjar/New_Project_1/assets/97542536/e118218f-b40e-4f26-acdc-5749cc0f118e)
+
+### Stripe Payment page
 ![Screenshot (117)](https://github.com/Kapil-Badgujjar/New_Project_1/assets/97542536/f313bbf8-6d28-438a-9e25-946e6646f56c)
+
+### Orders Page
 ![Screenshot (118)](https://github.com/Kapil-Badgujjar/New_Project_1/assets/97542536/4f894f42-7d68-4251-9bcc-1830c23d2409)
