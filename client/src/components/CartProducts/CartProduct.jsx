@@ -6,6 +6,7 @@ import { removeProduct, updateQuantity } from '../../features/userCart/userCartS
 import axios from 'axios';
 
 export default function CartProduct(props) {
+  console.log(props);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -48,7 +49,7 @@ export default function CartProduct(props) {
         <img src={props.item.product.image} alt='product image'/>
         <div className={styles.product_detail}>
             <span className={styles.name}>{props.item.product.productName}</span>
-            <span className={styles.price}>&#8377; {props.item.product.price}</span>
+            <span className={styles.price}>&#8377; {Math.round(props.item.product.price - (props.item.product.offer*props.item.product.price/100))}</span>
             <div className={styles.btnDiv}>
               <button onClick={()=> {updateQuantityFun(false)}}>-</button>
               <span> {props.item.quantity} </span>

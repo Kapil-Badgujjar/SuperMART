@@ -1,0 +1,19 @@
+.FailedPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+}
+.FailedMessageContainer{
+    display: flex;
+    flex-direction:  column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+}
+
+.failedImage {
+    width: 100%;
+}

@@ -1,0 +1,19 @@
+.SuccessPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+}
+.SuccessMessageContainer{
+    display: flex;
+    flex-direction:  column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+}
+
+.successImage {
+    width: 100%;
+}

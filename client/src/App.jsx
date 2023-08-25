@@ -30,6 +30,9 @@ import AllProducts from './pages/Seller/AllProducts';
 import SellerPage from './pages/Seller/SellerPage';
 import './App.css'
 import Checkout from './pages/Checkout/Checkout';
+import SuccessPage from './pages/Orders/SuccessPage';
+import FailedOrder from './pages/Orders/FailedOrder';
+import AccountVerifed from './pages/Home/AccountVerified';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -177,15 +180,15 @@ const router = createBrowserRouter([
   },
   {
     path: 'account-verified',
-    element: <div>Account verified</div>,
+    element: <AccountVerifed />
   },
   {
     path: 'canceled',
-    element: <div>Order canceled</div>
+    element: <FailedOrder />
   },
   {
     path: 'success',
-    element: <div>Order Placed successfully</div>
+    element: <SuccessPage />
   }
 ])
 
