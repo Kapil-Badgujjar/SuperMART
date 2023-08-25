@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import styles from "./ProductPage.module.css";
 import Button from "../../components/Button/Button";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUserDetail } from "../../features/user/userSlice";
 import { selectUserCart, addProduct, addQuantity } from "../../features/userCart/userCartSlice";
 import filledStar from '/ratingStarFilled.png';
 import hollowStar from '/ratingStarHollow.png';
 export default function ProductPage() {
+  const navigate = useNavigate();
   const { id } = useParams("id");
   const [product, setProduct] = useState(undefined);
   const [quantity, setQuantity] = useState(1);
@@ -17,6 +18,7 @@ export default function ProductPage() {
   const cart = useSelector(selectUserCart);
   const [ratingsReviews, setRatingsReviews] = useState([]);
   useEffect(() => {
+    window.scrollTo(0, 0);
     async function getProductById() {
       try {
         axios
@@ -55,6 +57,10 @@ export default function ProductPage() {
   }, []);
 
   async function addToCart() {
+    if(!user?.id){
+      navigate('/login');
+      return;
+    }
     const token = localStorage.getItem('userToken');
     const item = {
       userId: user.id,

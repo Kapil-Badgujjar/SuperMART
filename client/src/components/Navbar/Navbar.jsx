@@ -65,7 +65,7 @@ export default function Navbar() {
         </div>
           <div className={styles.center}>
             <Link to='/home'>Home</Link>
-            <Link to='/products'>Products</Link>
+            <Link to='/products'>Store</Link>
             <Link to='/categories'>Categories</Link>
             <Link to='/search'>Search</Link>
             <Link to='/about'>About</Link>
@@ -103,15 +103,15 @@ export default function Navbar() {
           <div className={styles.right_side}>
             <Link to='/home' onClick={() => setSideMenu(false)}>Home</Link>
             <Link to='/categories' onClick={() => setSideMenu(false)}>Categories</Link>
-            <Link to='/products'  onClick={() => setSideMenu(false)}>products</Link>
+            <Link to='/products'  onClick={() => setSideMenu(false)}>Store</Link>
             <Link to='/search' onClick={() => setSideMenu(false)}>Search</Link>
             <Link to='/about' onClick={() => setSideMenu(false)}>About</Link>
             {user?.name && <Link to='/user-profile' onClick={() => setSideMenu(false)}>Profile</Link>}
             {user?.name && <Link to='/orders' onClick={() => setSideMenu(false)}>Order</Link> }
             {user?.name && <Link to='/favourite' onClick={() => setSideMenu(false)}>Favourite</Link> }
             {user?.name && <Link onClick={() => { setShowCart(prev => !prev); setSideMenu(false)}}>Cart</Link>}
-            {user?.name ? <span  onClick={() => { setSideMenu(false); logoutfun() }}>Logout</span> : <Link to='/login' onClick={() => setSideMenu(false)}>Login</Link>}
-          </div>u
+            {user?.name ? <span  className={styles.logoutspan} onClick={() => { setSideMenu(false); logoutfun() }}>Logout</span> : <Link to='/login' onClick={() => setSideMenu(false)}>Login</Link>}
+          </div>
         </div>
       )}
       {showCart && <div className={styles.user_cart_page} >

@@ -17,6 +17,7 @@ export default function Login() {
   const [error, setError] = useState('');
   let loginError = useSelector(selectUserErrors);
   
+  useEffect(()=>{window.scrollTo(0, 0);},[]);
   useEffect(()=>{setError(loginError)},[loginError]);
 
   useEffect(()=>{

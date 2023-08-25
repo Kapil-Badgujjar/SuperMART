@@ -273,3 +273,7 @@
   .checkout_btn > button {
     width: 100%;
   }
+
+  .logoutspan{
+    color: white;
+  }

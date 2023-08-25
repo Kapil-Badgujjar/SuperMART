@@ -7,6 +7,7 @@ export default function Category() {
   const {category} = useParams('category');
   const [products, setProducts] = useState([]);
   useEffect(() => {
+    window.scrollTo(0, 0);
     axios.post(import.meta.env.VITE_SERVER_ADDRESS + '/products/fetch-product-by-category',{category: category}).then((response) => {
       if (response?.status == 200) {
         setProducts(response?.data);
@@ -15,8 +16,9 @@ export default function Category() {
   },[]);
   return (
     <div className={styles.products_container}>
-      <br/>
       <h1>{category}</h1>
+      <br/>
+      <hr/>
       <br/>
         <div className={styles.products_section}>
         {products.map(product => {

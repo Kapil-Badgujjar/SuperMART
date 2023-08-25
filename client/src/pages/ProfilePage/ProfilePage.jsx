@@ -10,6 +10,7 @@ export default function ProfilePage() {
     const user = useSelector(selectUserDetail);
 
     useEffect(()=>{
+        window.scrollTo(0, 0);
         if(!user.id) navigate('/login');
     },[]);
   return (

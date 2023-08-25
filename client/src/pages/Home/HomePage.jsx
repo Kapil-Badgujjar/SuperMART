@@ -15,6 +15,7 @@ export default function HomePage() {
   const user = useSelector(selectUserDetail);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if(user?.name) dispatch(fetchCart());
   },[]);
 

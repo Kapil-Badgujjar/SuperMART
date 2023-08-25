@@ -3,9 +3,26 @@
     margin: 0 auto;
     font-family: 'Poppins', sans-serif;
 }
+.heading{
+    text-align: center;
+    font-size: 3rem;
+}
+
 .products_section {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     gap: 10px;
+    place-items: center;
+}
+
+@media  screen and (min-width: 320px) {
+    .products_section {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    }
+}
+@media screen and (min-width: 768px) {
+    .products_section {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+
+    }
 }
