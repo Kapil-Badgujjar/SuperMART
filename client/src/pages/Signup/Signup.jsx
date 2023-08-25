@@ -66,8 +66,11 @@ export default function Signup() {
         setTimeout(() =>{setErrorMessage('')},3000);
       }
     }
-
   }
+
+  useEffect(()=>{
+    window.scrollTo(0, 0);
+  },[]);
 
   return (
     <div style={{background: `url(${sb})`}} className={styles.form_container}>

@@ -10,10 +10,7 @@ export default function Checkout() {
     const [defaultAddress, setDefaultAddress] = useState('');
 
     useEffect(()=>{
-        
-    },[addressFlag]);
-
-    useEffect(()=>{
+        window.scrollTo(0, 0);
         async function getUserAddress(){
             const token = localStorage.getItem('userToken');
             try {

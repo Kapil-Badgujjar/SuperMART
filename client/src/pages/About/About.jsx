@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './About.module.css'
 import reactimage from '/technology/react.png';
 import axios from '/technology/axios.svg';
@@ -12,8 +12,14 @@ import passportimage from '/technology/passport.png';
 import firebase from '/technology/firebase.png';
 import prismaimage from '/technology/prisma.png';
 import monogodbimage from '/technology/mongo.png';
+import stripeImage from '/technology/stripe.png';
 export default function About() {
   const [showMessage, setShowMessage] = useState(true);
+
+  useEffect(()=>{
+    window.scrollTo(0, 0);
+  },[]);
+  
   return (
     <div className={styles.about_container}>
         <div className={styles.about_div}>
@@ -63,6 +69,7 @@ export default function About() {
                   {/* <img src={passportimage} alt="passport image" /> */}
                   <img src={prismaimage} alt="prisma image" />
                   <img src={monogodbimage} alt="mongodb image" />
+                  <img src={stripeImage} alt="stripe image" />
               </div>
             </div>
           </div>

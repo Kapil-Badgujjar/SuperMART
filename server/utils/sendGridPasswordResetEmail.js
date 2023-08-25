@@ -11,7 +11,7 @@ function passwordResetEmail(email,token){
         },
         subject: 'Password reset request',
         text: 'Click on the link below to reset your password',
-        html: `<h2>Click on the link below to reset your password</h2><a href="http://localhost:5173/update-password/${token}">Click here</a>
+        html: `<h2>Click on the link below to reset your password</h2><a href="${process.env.CLIENT_URL}/update-password/${token}">Click here</a>
         <p>This link is valid for only once.</p>`
     }
     sgMail.send(mail).then((response) => console.log('Email sent ...'))

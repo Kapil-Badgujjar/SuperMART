@@ -1,9 +1,12 @@
 categories_container{
     width: 100%;
 }
+.others{
+    background-image: linear-gradient(45deg, rgb(33, 34, 35), rgb(16, 35, 49));
+}
 .categories_main_div{
     max-width: 100%;
-    font-family:  'Lexend Deca', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 .heading{
     font-size: 3rem;
@@ -17,13 +20,15 @@ categories_container{
     padding: 20px 0px;
 }
 .categories > div{
+    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: #22333B;
     height: 200px;
-    color: white;
-    text-shadow: 2px 2px 5px #22333B;
+    color: rgb(255, 255, 255);
+    font-weight: 500;
+    text-shadow: 0px 0px 10px #1f2528;
     font-size: 260%;
     transition: font-size 0.3s ease-in-out;
 }
@@ -35,5 +40,7 @@ categories_container{
         max-width: 1236px;
         margin: 0px auto;
     }
-    
+    .others{
+        grid-column: 1/-1;
+    }
 }

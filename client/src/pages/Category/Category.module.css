@@ -1,7 +1,7 @@
 .products_container {
     max-width: 1236px;
     margin: 0 auto;
-    font-family: 'Nunito Sans', sans-serif;;
+    font-family: 'Poppins', sans-serif;
 }
 .products_container > h1 {
     text-align: center;
@@ -14,3 +14,9 @@
     gap: 10px;
 }
 
+@media screen and (min-width: 768px){
+    .products_container > h1 {
+        text-align: center;
+        font-size: 3rem;
+    }
+}

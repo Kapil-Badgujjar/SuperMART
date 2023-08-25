@@ -29,6 +29,7 @@ export default function ForgotPassword() {
   }
 
   useEffect(()=>{
+    window.scrollTo(0, 0);
     if(user?.id){
       navigate('/home')
     }

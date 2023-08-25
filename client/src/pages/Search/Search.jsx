@@ -9,6 +9,7 @@ export default function Search() {
   const [pattern, setPattern] = useState("");
 
   useEffect(()=>{
+    window.scrollTo(0, 0);
     if(pattern.trim() === '') {
       setProducts([]);
       return;

@@ -97,9 +97,6 @@
     padding: 20px;
 }
 @media screen and (min-width: 768px) {
-    .product_page_container {
-
-    }
     .product_page {
         max-width: 1236px;
         
@@ -108,6 +105,7 @@
         flex-direction: row;
     }
     .left > img {
+        min-width: 500px;
         max-width: 600px;
         width: 100%;
     }

@@ -10,6 +10,7 @@ export default function Orders() {
   const user = useSelector(selectUserDetail);
   const [orderedItems, setOrderedItems] = useState([]);
   useEffect(() => {
+    window.scrollTo(0, 0);
     if(!user.name) { navigate('/login'); return; }
     const token = localStorage.getItem('userToken');
     async function getOrders(){

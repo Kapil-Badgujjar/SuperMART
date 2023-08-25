@@ -6,7 +6,6 @@ import Video1 from "./components/Video1";
 import Video2 from "./components/Video2";
 import Banner2 from "./components/Banner2";
 import Banner3 from "./components/Banner3";
-import Video3 from "./components/Video3";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCart } from "../../features/userCart/userCartSlice";
 import { selectUserDetail } from "../../features/user/userSlice";
@@ -15,6 +14,7 @@ export default function HomePage() {
   const user = useSelector(selectUserDetail);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if(user?.name) dispatch(fetchCart());
   },[]);
 
@@ -26,7 +26,6 @@ export default function HomePage() {
       <Banner2 />
       <Video2 />
       <Banner3 />
-      {/* <Video3 /> */}
     </div>
   );
 }
