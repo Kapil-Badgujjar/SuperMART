@@ -83,7 +83,7 @@ export default function Signup() {
       <input className={styles.input_box} type="password" name="password" placeholder='Password:' />
       <input className={styles.input_box} type="text" name="confirmPassword" placeholder='Confirm Password:' />
       <select className={styles.input_box} name="gender">
-        <option label value="">--Select Gender--</option>
+        <option value="">--Select Gender--</option>
         <option value="Male">Male</option>
         <option value="Female">Female</option>
       </select>

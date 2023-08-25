@@ -13,23 +13,23 @@ export default function Root() {
   useEffect(() => {
     const userAccessToken = localStorage.getItem('userToken');
     const userRefreshToken = localStorage.getItem('userRefreshToken');
-    if(!userAccessToken || !userRefreshToken) { navigate('/login'); return;}
+    if(!userAccessToken || !userRefreshToken) { if(window.location.pathname === '/') navigate('/login'); return; }
     async function getDetails() {
       try{
         let response = undefined;
         response = await getData('/user/get-user-details', userAccessToken);
         if(response?.status === 200){
           dispatch(login(response.data));
-          navigate('/home');
+          if(window.location.pathname=='/'|| window.location.pathname=='/login') navigate('/home');
         } else {
           response = await getData('/user/refresh-token', userRefreshToken);
           console.log(response);
           if(response?.status === 200){
             localStorage.setItem('userToken', response.data.newAccessToken);
             dispatch(login(response.data.user));
-            navigate('/home');
+            if(window.location.pathname=='/'|| window.location.pathname=='/login') navigate('/home');
           } else {
-            navigate('/login');
+            if(window.location.pathname=='/') navigate('/login');
             return;
           }
         }

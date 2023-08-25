@@ -54,11 +54,21 @@ export default function OrderedProducts(props) {
     useEffect(()=>{
         setStatus(props.item.status);
         async function getRatngsReviews(){
+            const token = localStorage.getItem('userToken');
             try {
-                const response = await axios.get(import.meta.env.VITE_SERVER_ADDRESS + `/products/get-product-ratings-reviews/${props.item.product.id}`,
-                    { withCredentials: true }
+                const response = await axios.post(import.meta.env.VITE_SERVER_ADDRESS + `/user/get-my-product-ratings-reviews`,
+                    {
+                        productId: props.item.product.id,
+                    },
+                    { 
+                        withCredentials: true,
+                        headers: {
+                            "Authorization": "Bearer " + token
+                        }
+                    }
                   )
                 if(response.status = 200){
+                        console.log(response.data);
                       setRatingValue(response.data[0]?.rating);
                       setReviewText(response.data[0]?.text);
                   }

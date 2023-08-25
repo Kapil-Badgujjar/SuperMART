@@ -65,4 +65,14 @@ async function getRatingReviews(productId) {
     }
 }
 
-export { addUpdateRating, addUpdateReview, invalidateRatingReview, getRatingReviews };
+async function getMyRatingReviews(userId,productId) {
+    try {
+        const reviews = await prisma.ratingsReviews.findMany({where: {userId: userId, productId: productId, isValid: true}, select: { rating: true, text: true, date: true, user: {select: {name: true}}}});
+        return reviews;
+    } catch (error) {
+        console.log(error.message);
+        return [];
+    }
+}
+
+export { addUpdateRating, addUpdateReview, invalidateRatingReview, getRatingReviews, getMyRatingReviews };
