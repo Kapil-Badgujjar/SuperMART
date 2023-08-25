@@ -53,7 +53,7 @@ const router = createBrowserRouter([
         element: <ForgotPassword />,
       },
       {
-        path: 'update-password',
+        path: 'update-password/:token',
         element: <UpdatePassword />,
       },
       {
@@ -174,6 +174,10 @@ const router = createBrowserRouter([
         element: <AdminLogin />
       }
     ]
+  },
+  {
+    path: 'account-verified',
+    element: <div>Account verified</div>,
   },
   {
     path: 'canceled',

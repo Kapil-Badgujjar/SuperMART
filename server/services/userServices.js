@@ -3,12 +3,15 @@ import { v4 as uuidv4 } from 'uuid'
 async function getUser(email, password){
     try {
         const response = await prisma.user.findFirst({where: {email: email, password: password}});
+        if(!response.isVerified) return { flag: false, message: '* Please verify you account first', user: undefined };
+        // if(!response.isActive) return { flag: false, message: '* Please activate your account ', user: undefined };
+        if(response.isBlocked) return { flag: false, message: '* You are blocked by admin, Please contact to admin', user: undefined };
         const user = {};
         user.id = response.id;
         user.name = response.name;
         user.email = response.email;
         user.phoneNumber = response.phoneNumber;
-        return user;
+        return { flag: true, message: "Valid user", user};
     } catch (err) {
         console.log(err.message);
         return false;
@@ -36,15 +39,20 @@ async function addUser( userData ){
     }
     try {
         const response = await prisma.user.create({data: user});
-        console.log(response);
-        const userDetails = {};
-        userDetails.userId = response.id;
-        userDetails.name = response.name;
-        userDetails.email = response.email;
-        userDetails.phoneNumber = response.phoneNumber;
-        return userDetails;
+        if(response) return response.verificationToken;
+        else return false;
     } catch( error ){
         console.log(error);
+        return false;
+    }
+}
+
+async function verifyAccount(token){
+    try {
+        const response = await prisma.user.updateMany({where: {verificationToken: token}, data: { isActive: true, isVerified: true}});
+        console.log(response);
+        return true;
+    } catch (error) {
         return false;
     }
 }
@@ -130,5 +138,38 @@ async function reverseOrder(payment_id){
 }
 
 
+async function forgotPasswordRequest(emailId){
+    const newToken = uuidv4().toString();
+    try {
+        const response = await prisma.user.update({where: {email: emailId}, data: {passwordResetToken: newToken}});
+        if(response) return newToken;
+        else return undefined;
+    } catch (error) {
 
-export { getUser, addUser, getUserAddress, initiateOrder, orderDone, reverseOrder };
+        return undefined;
+    }
+}
+
+async function changePassword(userId, newPassword){
+    try {
+        const response = await prisma.user.updateMany({where: {id: userId}, data: {password: newPassword}});
+        if(response.count > 0) return { flag: true, message: 'Success'};
+        else return { flag: false, message: 'Failed to reset'};
+    } catch (error) {
+        return { flag: false, message: error.message}
+    }
+}
+
+async function resetPassword(token, newPassword){
+    const newToken = uuidv4().toString();
+    try {
+        const response = await prisma.user.updateMany({where: {passwordResetToken: token}, data: { password: newPassword, passwordResetToken: newToken}});
+        if(response.count > 0) return { flag: true, message: 'Success'};
+        else return { flag: false, message: 'Failed to reset'};
+    } catch (error) {
+        console.log(error);
+        return { flag: false, message: error.message}
+    }
+}
+
+export { getUser, addUser, verifyAccount, changePassword, forgotPasswordRequest, resetPassword, getUserAddress, initiateOrder, orderDone, reverseOrder };

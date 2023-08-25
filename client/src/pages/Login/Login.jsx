@@ -16,8 +16,12 @@ export default function Login() {
   const status = useSelector(selectUserStatus);
   const [error, setError] = useState('');
   let loginError = useSelector(selectUserErrors);
+  
   useEffect(()=>{setError(loginError)},[loginError]);
 
+  useEffect(()=>{
+    setTimeout(()=>{setError('')},3000);
+  },[error]);
  useEffect(() => {
     { user.name && navigate("/home"); }
   },[user]);
@@ -27,11 +31,9 @@ export default function Login() {
     const formData = new FormData(formRef.current);
     if(!testEmail(formData.get('email'))){
         setError('* Please enter valid email address');
-        setTimeout(() =>{setError('')},3000);
         return;
     }else if(!testPassword(formData.get('password'))){
         setError('* Enter a strong password [a-zA-Z0-9$!@#...]');
-        setTimeout(() =>{setError('')},3000);
         return;
     }
     try {
@@ -42,7 +44,6 @@ export default function Login() {
       }
     } catch (err) {
       setError(err.message);
-      setTimeout(() =>{setError('')},3000);
     }
   }
 

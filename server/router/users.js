@@ -2,14 +2,15 @@ import {} from 'dotenv/config'
 import express from 'express'
 const router = express.Router()
 import jwt from 'jsonwebtoken';
-import { getUser, addUser, getUserAddress, orderDone, reverseOrder } from '../services/userServices.js'; // Function from user services
+import { getUser, addUser, getUserAddress, orderDone, reverseOrder, verifyAccount, forgotPasswordRequest, resetPassword, changePassword } from '../services/userServices.js'; // Function from user services
 import { getOrders, cancelOrder, returnOrder } from '../services/orderServices.js';
 import authenticateUser from '../middlewares/authMiddlewareUser.js';    // authenticateUser middleware
 import { prisma } from '../prisma/prismaClientModule.js';   // Prisma client
 import stripeFunction from '../utils/stripe.js';
-import { addUpdateRating, addUpdateReview, invalidateRatingReview } from '../services/ratingReviewServices.js';
+import { addUpdateRating, addUpdateReview, invalidateRatingReview, getMyRatingReviews } from '../services/ratingReviewServices.js';
 import { testEmail, testPassword, testPhoneNumber } from '../utils/dataValidator.js';
-
+import signupMail from '../utils/sendGridSignupEmail.js';
+import passwordResetEmail from '../utils/sendGridPasswordResetEmail.js';
 // Authenticate users and send back user details
 router.route('/get-user-details').get(authenticateUser, async (req, res) =>  res.status(200).send({id: req.user.id, name: req.user.name, email: req.user.email, phoneNumber: req.user.phoneNumber}));
 
@@ -75,7 +76,11 @@ router.route('/login').post(async (req, res) => {
     }
 
     try{
-        const user = await getUser(req.body.userId, req.body.password);     // getUser function called with email and password
+        const { flag, message, user } = await getUser(req.body.userId, req.body.password);     // getUser function called with email and password
+        if(!flag) {
+            res.status(401).send({message});
+            return;
+        }
         if(user) { 
 
             // Create access token and refresh token
@@ -183,19 +188,55 @@ router.route('/signup').post(async (req, res) => {
      * ***********/
     console.log(response); //
 
+    signupMail(req.body.email, response);
     // If Response received
     if(response)  res.status(200).send({message: 'Signup successfully'}); // Send response back to client
     else res.status(500).send({message: 'Signup failed'}); //send error response back to client
 })
 
-router.route('/forgot-password').post((req,res) => {
-    console.log(req.body);
-    res.status(200).send({message: "Successfully forgot password"});
+router.route('/verify-account/:token').get(async (req, res) => {
+    const token = req.params.token;
+    const response = await verifyAccount(token);
+    if(response){
+        res.status(200).redirect(process.env.CLIENT_URL+'/account-verified');
+    } else {
+        res.status(404);
+    }
 });
 
-router.route('/update-password').post((req,res) => {
+router.route('/forgot-password').post(async (req,res) => {
     console.log(req.body);
-    res.status(200).send({message: "Successfully updated password"});
+    if(!testEmail(req.body.email)){
+        res.status(400).send({message: '* Please enter a valid email id'});
+        return;
+    }
+    const response = await forgotPasswordRequest(req.body.email);
+    if(response){
+        passwordResetEmail(req.body.email,response)
+        res.status(200).send({message: "Successfully forgot password"});
+    } else {
+        res.status(404).send({message: "No account found"});
+    }
+});
+
+router.route('/reset-password').post(async (req,res) => {
+    if(!testPassword(req.body.newPassword)) {
+        res.status(400).send({message: '* Enter a strong password [a-zA-Z0-9$!@#...]'});
+        return;
+    }
+    const response = await resetPassword(req.body.token, req.body.newPassword);
+    if(response?.flag) res.status(200).send({message: "Success"});
+    else res.status(500).send({message: "* Failed to reset password"});
+});
+
+router.route('/update-password').post(authenticateUser, async (req,res) => {
+    if(!testPassword(req.body.newPassword)) {
+        res.status(400).send({message: '* Enter a strong password [a-zA-Z0-9$!@#...]'});
+        return;
+    }
+    const response = await changePassword(req.user.id, req.body.newPassword);
+    if(response?.flag) res.status(200).send({message: "Success"});
+    else res.status(500).send({message: "Failed to reset password"});
 });
 
 router.route('/make-order-session').post(authenticateUser, async (req, res) => {
@@ -253,6 +294,17 @@ router.route('/review').post(authenticateUser, async (req, res) => {
     const response = await addUpdateReview(req.user.id, req.body.productId, req.body.review);
     if(response)  res.status(200).send({message: 'Success'});
     else res.status(500).send({message: 'Internal Server Error'});
+});
+
+router.route('/get-my-product-ratings-reviews').post(authenticateUser, async (req, res) => {
+    const userId = req.user.id;
+    const productId = req.body.productId;
+    const ratings = await getMyRatingReviews(userId,productId);
+    if(ratings){
+        res.status(200).send(ratings);
+    } else {
+        res.status(404).send({message: 'Ratings not found'});
+    }
 });
 
 export default router;

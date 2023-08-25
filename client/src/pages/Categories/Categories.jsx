@@ -4,7 +4,6 @@ import styles from './Categories.module.css';
 import Clothes from '/categories/Clothes.jpg'
 import { useNavigate } from 'react-router-dom';
 export default function Categories() {
-  const navigate = useNavigate();
 
   return (
     <div className={styles.categories_container}>
