@@ -16,10 +16,10 @@ export default function Footer() {
                 </div>
                 <div className={styles.c2}>
                 <span>Featured</span>
-                    <Link to='/'>SuperMART Welcome page</Link>
+                    <Link to='/home'>SuperMART Welcome page</Link>
                     <Link to='/admin/'>Admin</Link>
                     <Link to='/sellers'>Sellers</Link> 
-                    <Link to='/products'>Products</Link> 
+                    <Link to='/products'>All products</Link> 
                     <Link to='/help'>Help</Link>
                 </div>
                 <div className={styles.c3}>
@@ -27,7 +27,7 @@ export default function Footer() {
                     <Link>Name: Kapil</Link>
                     <Link>Mobile: +91-7988220911</Link>
                     <Link>Email: kapilbadgujjar99@gmail.com</Link> 
-                    <Link>Portfolio: www.kapilbadgujjar.com</Link> 
+                    <a href="https://portfolio-website-ten-sable.vercel.app/">My Portfolio Website</a> 
                     <Link>Request for admin access</Link>
                 </div>
             </div>

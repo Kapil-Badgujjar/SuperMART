@@ -2,7 +2,7 @@ import {} from 'dotenv/config'
 import express from 'express'
 const router = express.Router()
 import jwt from 'jsonwebtoken';
-import { getUser, addUser, getUserAddress, orderDone, reverseOrder, verifyAccount, forgotPasswordRequest, resetPassword, changePassword } from '../services/userServices.js'; // Function from user services
+import { getUser, addUser, getUserAddress, orderDone, reverseOrder, verifyAccount, forgotPasswordRequest, resetPassword, changePassword, checkEmailAvailibility } from '../services/userServices.js'; // Function from user services
 import { getOrders, cancelOrder, returnOrder } from '../services/orderServices.js';
 import authenticateUser from '../middlewares/authMiddlewareUser.js';    // authenticateUser middleware
 import { prisma } from '../prisma/prismaClientModule.js';   // Prisma client
@@ -149,49 +149,53 @@ router.route('/get-user-address').get(authenticateUser, async (req, res)=>{
 // Signup route
 router.route('/signup').post(async (req, res) => {
     if(!req.body) { 
-        res.status(401).send({message: 'Access Denied'});
+        res.status(401).send({message: ' Access Denied'});
         return;
     }
     console.log(req.body);
     if(!req.body.name){
-        res.status(400).send({ message: 'Please enter a name'});
+        res.status(400).send({ message: ' Please enter a name'});
         return;
     } else if(!testPhoneNumber(req.body.phoneNumber)){
-        res.status(400).send({ message: 'Please enter phone number'});
+        res.status(400).send({ message: ' Please enter phone number'});
         return;
     }else if(!req.body.dateOfBirth||req.body.dateOfBirth.length !== 10){
-        res.status(400).send({ message: 'Please enter date of birth'});
+        res.status(400).send({ message: ' Please enter date of birth'});
         return;
     }else if(!testEmail(req.body.email)){
-        res.status(400).send({ message: 'Please enter valid email address'});
+        res.status(400).send({ message: ' Please enter valid email address'});
         return;
     }else if(!testPassword(req.body.password)){
-        res.status(400).send({ message: 'Enter a strong password [a-zA-Z0-9$!@#...]'});
+        res.status(400).send({ message: ' Enter a strong password [a-zA-Z0-9$!@#...]'});
         return;
     }else if(req.body.password !== req.body.confirmPassword){
-        res.status(400).send({ message: 'Confirm Password not matched'});
+        res.status(400).send({ message: ' Confirm Password not matched'});
         return;
     } else if(!req.body.gender){
-        res.status(400).send({ message: 'Please select a gender'});
+        res.status(400).send({ message: ' Please select a gender'});
         return;
     }else if(!req.body.address){
-        res.status(400).send({ message: 'Please enter an address'});
+        res.status(400).send({ message: ' Please enter an address'});
         return;
     }
+    const checkEmail = await checkEmailAvailibility(req.body.email);
+    if(checkEmail){
+        res.status(400).send({ message: ' Email already Registered'});
+        return;
+    }
+
     // Add new user
     const response = await addUser( req.body );     // addUser function
 
-    // Send email for varification 
-    /*************
-     * 
-     * 
-     * ***********/
     console.log(response); //
 
-    signupMail(req.body.email, response);
     // If Response received
-    if(response)  res.status(200).send({message: 'Signup successfully'}); // Send response back to client
-    else res.status(500).send({message: 'Signup failed'}); //send error response back to client
+    if(response) {
+        signupMail(req.body.email, response);
+        res.status(200).send({message: 'Signup successfully'}); // Send response back to client
+    }else {
+        res.status(500).send({message: 'Signup failed'}); //send error response back to client
+    }
 })
 
 router.route('/verify-account/:token').get(async (req, res) => {

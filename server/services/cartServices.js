@@ -16,7 +16,7 @@ async function getCartData(id){
         const cartData = await prisma.cart.findMany({
             where: {userId: id},
             select: { quantity: true,
-                product: { select : { id: true, image: true, productName: true, price: true }
+                product: { select : { id: true, image: true, productName: true, price: true, offer: true }
             }}});
         if(cartData) return cartData;
         else return false;

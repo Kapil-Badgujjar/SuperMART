@@ -118,13 +118,13 @@ export default function Navbar() {
         <div className={styles.cart_left_side} onClick={()=>{ setShowCart(false)}}>
         </div>
         <div className={`${styles.user_cart} ${showCart ? styles.show_user_cart:''}`}>
-          <div>
+        <div>
             <div className={styles.cart_top}>
               <span>CART</span>
               <span onClick={()=>{ setShowCart(false)}}>&times;&nbsp;</span>
             </div>
             <hr />
-            <div className={styles.cart_products_block}>
+            { cart.length > 0 ? <div className={styles.cart_products_block}>
               {/* Rendering cart products */}
               { cart.map((item)=>{
                 return(
@@ -133,15 +133,15 @@ export default function Navbar() {
                   </div>
                 )
               })}
-            </div>
+            </div> : <h1 className={styles.cartEmptyString}>Empty Cart</h1> }
           </div>
-          <div className={styles.cart_bottom}>
+          {cart.length > 0 && <div className={styles.cart_bottom}>
             <hr />
-            <div className={styles.total_cart_price}><span>Total price:</span><span>&#8377; {cart.reduce((totalSum, item) => totalSum + Number(item.product.price*item.quantity), 0)}</span></div>
+            <div className={styles.total_cart_price}><span>Total price:</span><span>&#8377; {cart.reduce((totalSum, item) => totalSum + Number(Math.round(item.product.price - (item.product.offer * item.product.price/100))*item.quantity), 0)}</span></div>
             <div className={styles.checkout_btn}>
               <Button value="Checkout" action={()=>{setShowCart(false); navigate('/checkout')}} />
             </div>
-          </div>
+          </div>}
         </div>
       </div>
       }

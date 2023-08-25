@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 async function getUser(email, password){
     try {
         const response = await prisma.user.findFirst({where: {email: email, password: password}});
+        if(!response) return {flag: false, message: 'error',user: undefined};;
         if(!response.isVerified) return { flag: false, message: '* Please verify you account first', user: undefined };
         // if(!response.isActive) return { flag: false, message: '* Please activate your account ', user: undefined };
         if(response.isBlocked) return { flag: false, message: '* You are blocked by admin, Please contact to admin', user: undefined };
@@ -14,7 +15,7 @@ async function getUser(email, password){
         return { flag: true, message: "Valid user", user};
     } catch (err) {
         console.log(err.message);
-        return false;
+        return {flag: false, message: 'error',user: undefined};
     }
 }
 
@@ -172,4 +173,14 @@ async function resetPassword(token, newPassword){
     }
 }
 
-export { getUser, addUser, verifyAccount, changePassword, forgotPasswordRequest, resetPassword, getUserAddress, initiateOrder, orderDone, reverseOrder };
+async function checkEmailAvailibility(email){
+    try {
+        const response = await prisma.user.findFirst({where: {email: email}});
+        if(response.email === email) return true;
+        else return false
+    } catch (error){
+        return true;
+    }
+}
+
+export { getUser, addUser, verifyAccount, changePassword, forgotPasswordRequest, resetPassword, getUserAddress, initiateOrder, orderDone, reverseOrder, checkEmailAvailibility };

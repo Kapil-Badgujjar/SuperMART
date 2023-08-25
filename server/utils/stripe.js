@@ -20,7 +20,7 @@ async function stripeFunction(address,userId,res) {
             product_data: {
               name: item.product.productName,
             },
-            unit_amount: item.product.price*100,
+            unit_amount: Math.round(item.product.price-(item.product.price*item.product.offer/100))*100,
           },
           quantity: item.quantity
         }
