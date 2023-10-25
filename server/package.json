@@ -6,14 +6,12 @@
   "author": "Kapil",
   "license": "MIT",
   "type": "module",
-  "engines": {
-    "node": "18.15.0"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "server": "node index.js",
-    "startnodemon": "nodemon index.js"
+    "startnodemon": "nodemon index.js",
+    "build": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^5.1.1",

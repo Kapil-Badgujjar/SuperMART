@@ -6,11 +6,10 @@ import Cart from './router/cart.js';
 import Seller from './router/sellers.js';
 import Products from './router/products.js';
 import Admin from './router/admin.js';
-
 const app = express();
-
 const allowedOrigins = [process.env.CLIENT_URL];
 
+// Setting cors policy
 app.use(cors({
     origin: (origin, callback) => {
     if (allowedOrigins.includes(origin) || !origin) {
@@ -25,17 +24,19 @@ app.use(cors({
     optionsSuccessStatus: 204,
 }));
 
+// Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.static('./public'));
 
+// Routes
 app.use('/user', User);
 app.use('/cart', Cart);
 app.use('/sellers', Seller);
 app.use('/products', Products);
 app.use('/admin', Admin);
 
+// Start listening
 app.listen(7777, () => {
     console.log('Server started on port 7777');
 });
