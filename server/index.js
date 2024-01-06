@@ -7,6 +7,7 @@ import Seller from './router/sellers.js';
 import Products from './router/products.js';
 import Admin from './router/admin.js';
 const app = express();
+const port = process.env.PORT || 7777;
 const allowedOrigins = [process.env.CLIENT_URL];
 
 // Setting cors policy
@@ -37,6 +38,6 @@ app.use('/products', Products);
 app.use('/admin', Admin);
 
 // Start listening
-app.listen(7777, () => {
-    console.log('Server started on port 7777');
+app.listen(port, () => {
+    console.log(`Server started on port: ${port}`);
 });
